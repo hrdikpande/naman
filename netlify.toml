@@ -3,7 +3,7 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
 
 # Astro's static build already emits a 404.html and directory-style URLs (each page is
 # index.html inside its own folder) — Netlify serves both correctly with no [[redirects]]
