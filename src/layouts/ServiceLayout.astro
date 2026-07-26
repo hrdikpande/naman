@@ -1,0 +1,142 @@
+---
+// Full 13-section service-page template (04-SERVICE-PAGE-TEMPLATE.md), shared by all 4 main
+// service pages so the site stays structurally consistent.
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import SectionTag from '../components/SectionTag.astro';
+import Button from '../components/Button.astro';
+import PhonePopup from '../components/PhonePopup.astro';
+import Card from '../components/Card.astro';
+import KeyFactsStrip from '../components/KeyFactsStrip.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import DocumentsChecklist from '../components/DocumentsChecklist.astro';
+import RelatedServices from '../components/RelatedServices.astro';
+import FAQBlock from '../components/FAQBlock.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { serviceSchema } from '../lib/schema';
+import type { ServiceData } from '../data/types';
+
+interface Props {
+  data: ServiceData;
+}
+const { data } = Astro.props;
+---
+
+<BaseLayout title={data.metaTitle} description={data.metaDescription} path={data.urlPath}>
+  <Breadcrumbs items={[{ name: 'Services', href: '/services' }, { name: data.name, href: data.urlPath }]} />
+
+  <!-- 1-2. Title + definition + primary action (top) -->
+  <section class="border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8 py-14 md:py-20">
+      <SectionTag>Service</SectionTag>
+      <h1 class="mb-5">{data.name}</h1>
+      <p class="text-lg md:text-xl text-[#333] leading-relaxed max-w-2xl mb-8">{data.definition}</p>
+      <div class="flex flex-wrap gap-4">
+        <Button href="#enquiry" arrow="↓">{data.primaryActionLabel}</Button>
+        <PhonePopup />
+      </div>
+    </div>
+  </section>
+
+  {
+    data.isOwnerSupplied && (
+      <div class="bg-pastel-orange border-b-[3px] border-ink px-4 md:px-8 py-3 text-sm font-semibold text-center">
+        This page's content is pending final copy from the business owner — sections below show structural
+        placeholders only.
+      </div>
+    )
+  }
+
+  <!-- 3. Who needs it -->
+  <section class="py-12 md:py-16">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <SectionTag>Is This For You?</SectionTag>
+      <h2 class="mb-8">Who Needs {data.name.replace(' Registration', '').replace(' Drafting', '')}</h2>
+      <ul class="grid sm:grid-cols-2 gap-4">
+        {data.whoNeedsIt.map((point) => (
+          <li class="flex items-start gap-3">
+            <span class="shrink-0 w-[18px] h-[18px] mt-0.5 flex items-center justify-center bg-cyan border-2 border-ink rounded-sm text-[11px] font-bold" aria-hidden="true">✓</span>
+            <span class="text-[#333] leading-snug">{point}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. What's included -->
+  <section class="py-12 md:py-16 bg-white border-y-[3px] border-ink">
+    <div class="mx-auto max-w-[1100px] px-4 md:px-8">
+      <SectionTag>What You Get</SectionTag>
+      <h2 class="mb-8">What's Included</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {data.whatsIncluded.map((item, i) => (
+          <Card variant="accent" bgClass={['bg-pastel-yellow', 'bg-pastel-cyan', 'bg-pastel-pink', 'bg-pastel-green'][i % 4]}>
+            <p class="font-semibold text-sm leading-snug">{item}</p>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Key facts strip -->
+  <KeyFactsStrip facts={data.keyFacts} />
+
+  <!-- 6. Types / categories -->
+  {
+    data.typesIntro && (
+      <section class="py-12 md:py-16">
+        <div class="mx-auto max-w-[880px] px-4 md:px-8">
+          <SectionTag>Types & Categories</SectionTag>
+          <h2 class="mb-6">Types & Categories</h2>
+          <p class="text-[#333] leading-relaxed">{data.typesIntro}</p>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- 7. Process -->
+  <ProcessSteps steps={data.process} heading={`The Full ${data.name} Process`} />
+
+  <!-- 8. Documents -->
+  <DocumentsChecklist documents={data.documents} />
+
+  <!-- 9. Timeline -->
+  <section class="py-12 md:py-16">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <SectionTag>Timeline</SectionTag>
+      <h2 class="mb-6">How Long It Really Takes</h2>
+      <p class="text-[#333] leading-relaxed">{data.timelineDetail}</p>
+    </div>
+  </section>
+
+  <!-- 10. Cost drivers -->
+  <section class="py-12 md:py-16 bg-white border-y-[3px] border-ink">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <SectionTag>Cost Drivers</SectionTag>
+      <h2 class="mb-6">What Affects the Price</h2>
+      <p class="text-[#333] leading-relaxed mb-6">{data.costDrivers}</p>
+      <Button href="/pricing" variant="white">See Pricing</Button>
+    </div>
+  </section>
+
+  <!-- 11. Related services & sub-pages -->
+  <RelatedServices subPages={data.subPages} related={data.relatedServices} />
+
+  <!-- 12. FAQ -->
+  <FAQBlock items={data.faq} heading={`${data.name} — Common Questions`} />
+
+  <!-- 13. Primary action (bottom, repeated) -->
+  <section id="enquiry" class="py-14 md:py-20 bg-paper border-t-[3px] border-ink">
+    <div class="mx-auto max-w-[640px] px-4 md:px-8">
+      <SectionTag>Get Started</SectionTag>
+      <h2 class="mb-3">{data.primaryActionLabel}</h2>
+      <p class="text-[#333] mb-8">
+        Tell us a bit about what you need — we'll respond within 1 business day.
+      </p>
+      <EnquiryForm presetService={data.slug === 'privacy-policy' ? 'Privacy Policy' : data.name.replace(' Registration', '').replace(' Drafting', '')} />
+    </div>
+  </section>
+
+  <JsonLd data={serviceSchema(data)} />
+</BaseLayout>

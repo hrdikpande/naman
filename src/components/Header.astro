@@ -1,0 +1,120 @@
+---
+// Header/nav — order and structure from 02-NAVIGATION.md; visual spec from neo.skill (navbar).
+import { headerNav, headerCta, services } from '../data/nav';
+import { business } from '../data/business';
+
+interface Props {
+  currentPath: string;
+}
+const { currentPath } = Astro.props;
+
+const isActive = (href: string) => currentPath === href || (href !== '/' && currentPath.startsWith(href));
+---
+
+<header class="sticky top-0 z-50 bg-white border-b-[3px] border-ink">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8 h-[60px] flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2.5 shrink-0" aria-label={`${business.displayName} — home`}>
+      <span
+        class="w-8 h-8 flex items-center justify-center bg-yellow border-[3px] border-ink rounded-brutal font-black text-sm"
+        aria-hidden="true">IP</span
+      >
+      <span class="font-extrabold uppercase tracking-tight text-[15px] leading-none">{business.displayName}</span>
+    </a>
+
+    <nav aria-label="Primary" class="hidden lg:flex items-center gap-1">
+      {
+        headerNav.map((item) =>
+          'children' in item && item.children ? (
+            <details class="relative group">
+              <summary
+                class="list-none cursor-pointer px-3 py-2 rounded-brutal font-bold text-sm uppercase tracking-wide hover:bg-yellow [&::-webkit-details-marker]:hidden"
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.name} <span aria-hidden="true">↓</span>
+              </summary>
+              <ul class="absolute left-0 top-[calc(100%+8px)] w-64 bg-white border-[3px] border-ink rounded-brutal shadow-brutal p-2 z-50">
+                {item.children.map((child) => (
+                  <li>
+                    <a href={child.href} class="block px-3 py-2 rounded-brutal font-semibold text-sm hover:bg-yellow">
+                      {child.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          ) : (
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class:list={[
+                'px-3 py-2 rounded-brutal font-bold text-sm uppercase tracking-wide hover:bg-yellow',
+                isActive(item.href) && 'bg-yellow',
+              ]}
+            >
+              {item.name}
+            </a>
+          )
+        )
+      }
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a href="/search" class="w-11 h-11 flex items-center justify-center border-[3px] border-ink rounded-brutal bg-white hover:bg-yellow transition-colors" aria-label="Search">
+        <span aria-hidden="true" class="text-lg leading-none mt-0.5">🔍</span>
+      </a>
+      <a
+        href={headerCta.href}
+        class="hidden sm:inline-flex items-center gap-1.5 bg-yellow text-ink border-[3px] border-ink rounded-brutal shadow-brutal-sm px-4 py-2 font-bold text-sm uppercase tracking-wide hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-brutal-none transition-transform"
+      >
+        {headerCta.name} <span aria-hidden="true">→</span>
+      </a>
+      <button
+        id="mobile-menu-toggle"
+        type="button"
+        class="lg:hidden w-11 h-11 flex items-center justify-center border-[3px] border-ink rounded-brutal bg-white"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Open menu"
+      >
+        <span aria-hidden="true">☰</span>
+      </button>
+    </div>
+  </div>
+
+  <nav
+    id="mobile-menu"
+    aria-label="Mobile"
+    class="hidden lg:hidden border-t-[3px] border-ink bg-white px-4 py-4 flex flex-col gap-1"
+  >
+    {
+      headerNav.map((item) => (
+        <a href={item.href} class="px-3 py-2.5 rounded-brutal font-bold text-sm uppercase tracking-wide hover:bg-yellow">
+          {item.name}
+        </a>
+      ))
+    }
+    {
+      services.map((s) => (
+        <a href={s.href} class="ml-4 px-3 py-2 rounded-brutal font-semibold text-sm hover:bg-yellow">
+          {s.name}
+        </a>
+      ))
+    }
+    <a
+      href={headerCta.href}
+      class="mt-2 inline-flex items-center justify-center gap-1.5 bg-yellow text-ink border-[3px] border-ink rounded-brutal shadow-brutal-sm px-4 py-3 font-bold text-sm uppercase tracking-wide"
+    >
+      {headerCta.name} <span aria-hidden="true">→</span>
+    </a>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => {
+    const isOpen = menu?.classList.toggle('hidden') === false;
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+  });
+</script>

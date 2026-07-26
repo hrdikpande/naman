@@ -1,0 +1,36 @@
+---
+// "Which service do I need?" mapping — reused on Home + Services hub (02-NAVIGATION.md).
+import SectionTag from './SectionTag.astro';
+import { decisionGuide } from '../data/nav';
+---
+
+<section class="py-12 md:py-16 bg-white border-y-[3px] border-ink">
+  <div class="mx-auto max-w-[880px] px-4 md:px-8">
+    <SectionTag>Not Sure Where To Start?</SectionTag>
+    <h2 class="mb-8">Which Service Do I Need?</h2>
+    <div class="border-[3px] border-ink rounded-brutal overflow-hidden">
+      {
+        decisionGuide.map((row, i) => (
+          <a
+            href={row.href}
+            class:list={[
+              'flex items-center justify-between gap-4 px-5 py-4 hover:bg-yellow transition-colors',
+              i > 0 && 'border-t-[3px] border-ink',
+            ]}
+          >
+            <span class="text-[#333] font-medium">
+              I want to protect <strong class="text-ink">{row.need}</strong>
+            </span>
+            <span class="shrink-0 font-black text-sm uppercase tracking-wide flex items-center gap-1.5">
+              {row.service} <span aria-hidden="true">→</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+    <p class="mt-6 text-sm text-[#555] leading-relaxed">
+      If your asset is a logo that is also creative artwork, it may qualify for <strong>both</strong> Trademark and
+      Copyright — the two are not mutually exclusive.
+    </p>
+  </div>
+</section>

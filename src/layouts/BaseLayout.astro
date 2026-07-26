@@ -1,0 +1,48 @@
+---
+// Fontsource: import as JS so Vite resolves the package through node_modules correctly
+// (CSS `@import` of a bare package specifier does not resolve reliably here).
+// Space Grotesk via Fontsource only ships weights 300-700; 800/900 (used for neo.skill's
+// display headings) render via the browser's synthetic-bold fallback from 700 — standard
+// practice when a heavier static weight isn't published.
+import '@fontsource/space-grotesk/400.css';
+import '@fontsource/space-grotesk/500.css';
+import '@fontsource/space-grotesk/600.css';
+import '@fontsource/space-grotesk/700.css';
+import '../styles/global.css';
+import SEO from '../components/SEO.astro';
+import JsonLd from '../components/JsonLd.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { organizationSchema } from '../lib/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const { title, description, path, ogImage, noindex } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <SEO title={title} description={description} path={path} ogImage={ogImage} noindex={noindex} />
+    <JsonLd data={organizationSchema()} />
+  </head>
+  <body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-yellow focus:border-[3px] focus:border-ink focus:rounded-brutal focus:px-4 focus:py-2 focus:font-bold">
+      Skip to content
+    </a>
+    <Header currentPath={path} />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

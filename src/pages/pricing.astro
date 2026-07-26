@@ -1,0 +1,97 @@
+---
+// Pricing (/pricing) — supporting-pages.md. Transparent cost drivers, no single-figure promises.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import SectionTag from '../components/SectionTag.astro';
+import CTABand from '../components/CTABand.astro';
+import { trademarkFees, copyrightFees } from '../data/fees';
+import { primaryActionLabel } from '../data/business';
+
+const drivers = [
+  {
+    service: 'Trademark',
+    href: '/services/trademark',
+    points: [
+      'Number of classes filed.',
+      `Entity size — ${trademarkFees.govtFeePerClassSmallEntity}/class (individuals, startups, MSMEs) vs ${trademarkFees.govtFeePerClassLargeEntity}/class (larger businesses) government fee.`,
+      'Scope of objection reply, show cause hearing, or opposition defence, if needed.',
+    ],
+  },
+  {
+    service: 'Copyright',
+    href: '/services/copyright',
+    points: ['Work category (literary, dramatic, musical, artistic, film, sound recording).', 'Published vs unpublished work.', `Government fee roughly ${copyrightFees.feeRange}.`, 'Additional documents required for software or artistic works.'],
+  },
+  {
+    service: 'Patent',
+    href: '/services/patent',
+    points: ['Provisional vs complete specification.', 'Specification complexity and number of claims.', 'Drawings required.', 'PCT / Convention (international) routes.'],
+  },
+  {
+    service: 'Privacy Policy',
+    href: '/services/privacy-policy',
+    points: ['Number of data touchpoints (forms, cookies, analytics, payment gateway, third-party integrations).', 'Whether GDPR/CCPA clauses are needed alongside DPDPA (international users).', 'Website vs. mobile app (app store disclosures — Play Store/App Store data safety sections — add scope).', 'Revisions after your review.'],
+  },
+];
+---
+
+<BaseLayout
+  title="Pricing — What Drives IPR Registration Costs in India"
+  description="Understand what drives trademark, copyright, and patent registration costs in India: government fees plus professional fees, explained transparently."
+  path="/pricing"
+>
+  <Breadcrumbs items={[{ name: 'Pricing', href: '/pricing' }]} />
+
+  <section class="py-12 md:py-16 border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <SectionTag>Pricing</SectionTag>
+      <h1 class="mb-5">Transparent Cost Drivers</h1>
+      <p class="text-lg text-[#333] leading-relaxed max-w-2xl">
+        Total cost = government fees + our professional/service fees. Government fees are fixed by the relevant
+        authority and are the same no matter who files for you; our fee covers the work of preparing, filing,
+        and prosecuting your application. We don't quote a single number up front because it genuinely depends
+        on your specifics — enquire and we'll give you a precise quote.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-14 md:py-20 bg-white border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <div class="flex flex-col gap-8">
+        {drivers.map((d) => (
+          <div class="border-[3px] border-ink rounded-brutal p-6">
+            <h2 class="text-xl mb-4">{d.service}</h2>
+            <ul class="flex flex-col gap-2 mb-4">
+              {d.points.map((p) => (
+                <li class="flex items-start gap-3 text-sm text-[#333]">
+                  <span class="shrink-0 w-[16px] h-[16px] mt-0.5 flex items-center justify-center bg-orange border-2 border-ink rounded-sm text-[10px] font-bold" aria-hidden="true">$</span>
+                  {p}
+                </li>
+              ))}
+            </ul>
+            <a href={d.href} class="font-bold text-sm hover:underline">
+              See full {d.service} details →
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-10">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <p class="bg-pastel-orange border-[3px] border-ink rounded-brutal px-5 py-4 text-sm font-semibold leading-relaxed">
+        Government fees and statutory timelines shown across this site are indicative and subject to change by
+        the relevant authority (IP India, the Copyright Office, or the Patent Office). Always confirm current
+        fees with us at enquiry stage.
+      </p>
+    </div>
+  </section>
+
+  <CTABand
+    heading="Get a Precise Quote"
+    body="Tell us what you need to protect and we'll give you an exact cost breakdown."
+    buttonLabel={primaryActionLabel}
+    buttonHref="/contact"
+  />
+</BaseLayout>

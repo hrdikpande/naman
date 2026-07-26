@@ -1,0 +1,47 @@
+---
+// Terms of Service (/legal/terms) — no substantive legal text supplied in the brief; content-gap
+// slot, not invented.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionTag from '../../components/SectionTag.astro';
+import { business } from '../../data/business';
+---
+
+<BaseLayout
+  title="Terms of Service"
+  description={`Terms of service for using ${business.displayName}'s website and engaging our services.`}
+  path="/legal/terms"
+  noindex={true}
+>
+  <Breadcrumbs items={[{ name: 'Terms of Service', href: '/legal/terms' }]} />
+
+  <section class="py-12 md:py-16">
+    <div class="mx-auto max-w-[720px] px-4 md:px-8">
+      <SectionTag>Legal</SectionTag>
+      <h1 class="mb-8">Terms of Service</h1>
+      <div class="border-[3px] border-ink rounded-brutal p-6 bg-white">
+        <p class="text-sm text-[#333] leading-relaxed mb-4">
+          <strong>Engagement Terms:</strong> By submitting an enquiry or engaging Bhartiya IP Solutions, you agree to these Terms. We provide IPR filing and facilitation services — trademark, copyright, and patent registration support, and privacy policy drafting — and are not a law firm providing legal representation unless separately and explicitly engaged for that purpose.
+        </p>
+        <p class="text-sm text-[#333] leading-relaxed mb-4">
+          <strong>Scope of Services:</strong> Our engagement covers the specific service confirmed in writing at enquiry/quote stage (e.g., trademark filing, objection reply, copyright registration). Any additional work (e.g., opposition defence, litigation, court representation) is a separate engagement requiring a separate quote.
+        </p>
+        <p class="text-sm text-[#333] leading-relaxed mb-4">
+          <strong>Client Obligations:</strong> You agree to provide accurate, complete information and documents needed for filing, and to respond to our requests (e.g., signing Power of Attorney, providing proof of use) within the timelines we specify, since delays on your part may affect statutory deadlines.
+        </p>
+        <p class="text-sm text-[#333] leading-relaxed mb-4">
+          <strong>No Guarantee of Outcome:</strong> Registration outcomes are decided solely by the relevant government authority (IP India, the Copyright Office, or the Patent Office) and cannot be guaranteed by us.
+        </p>
+        <p class="text-sm text-[#333] leading-relaxed mb-4">
+          <strong>Limitation of Liability:</strong> To the maximum extent permitted by law, our total liability for any claim arising out of or relating to a service shall not exceed the total professional fees invoiced to you for that specific engagement. We are not liable for indirect, incidental, or consequential loss, or for outcomes decided by the relevant government authority.
+        </p>
+        <p class="text-sm text-[#333] leading-relaxed mb-4">
+          <strong>Governing Law & Jurisdiction:</strong> These Terms are governed by the laws of India, and the courts at Bengaluru, Karnataka shall have exclusive jurisdiction over any disputes arising from them.
+        </p>
+        <p class="text-sm text-[#333] leading-relaxed">
+          <strong>Termination:</strong> Either party may terminate an ongoing engagement with written notice; fees for work already performed and non-refundable government fees already paid remain payable.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,72 @@
+---
+// LogoCarousel — auto-scrolling marquee for client logos
+interface Props {
+  logos: { name: string; src: string; fallbackText?: string }[];
+}
+
+const { logos } = Astro.props;
+
+// Duplicate logos array for seamless infinite loop
+const marqueeItems = [...logos, ...logos, ...logos];
+---
+
+<section class="py-14 bg-white border-y-[3px] border-ink overflow-hidden">
+  <!-- Heading -->
+  <div class="text-center mb-10 px-4">
+    <span class="inline-block bg-yellow border-[3px] border-ink rounded-brutal shadow-brutal-sm px-3.5 py-1.5 text-xs font-bold uppercase tracking-wideish mb-4">
+      Client Portfolio
+    </span>
+    <h2 class="text-2xl md:text-3xl font-black uppercase tracking-tight">Our Previous Works</h2>
+    <p class="text-[#555] mt-2 font-medium text-sm">Trusted by businesses across India</p>
+  </div>
+
+  <!-- Fade edges -->
+  <div class="relative">
+    <div class="pointer-events-none absolute inset-y-0 left-0 w-24 z-10"
+         style="background: linear-gradient(to right, white, transparent);"></div>
+    <div class="pointer-events-none absolute inset-y-0 right-0 w-24 z-10"
+         style="background: linear-gradient(to left, white, transparent);"></div>
+
+    <!-- Scrolling track -->
+    <div class="flex overflow-hidden">
+      <div class="flex items-center animate-marquee" style="gap: 0;">
+        {marqueeItems.map((logo) => (
+          <div class="logo-card group flex-shrink-0 mx-5">
+            <div class="w-44 h-24 flex items-center justify-center bg-white border-[3px] border-ink rounded-brutal shadow-brutal hover:-translate-y-1 hover:shadow-[4px_6px_0px_0px_#0a0a0a] transition-all duration-200 overflow-hidden px-4">
+              {logo.src ? (
+                <img
+                  src={logo.src}
+                  alt={logo.name}
+                  class="max-h-14 w-full object-contain grayscale group-hover:grayscale-0 transition-all duration-300"
+                  loading="lazy"
+                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                />
+                <span class="hidden w-full h-full items-center justify-center font-black text-sm text-center text-ink/70 uppercase tracking-wide">{logo.fallbackText || logo.name}</span>
+              ) : (
+                <span class="font-black text-sm text-center text-ink/70 uppercase tracking-wide leading-tight">{logo.fallbackText || logo.name}</span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(calc(-33.333%)); }
+  }
+
+  .animate-marquee {
+    animation: marquee 25s linear infinite;
+    will-change: transform;
+    /* Total width = items * (card-width + gap*2) */
+    width: max-content;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+</style>

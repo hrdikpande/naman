@@ -1,0 +1,33 @@
+---
+// Related services & sub-pages (04-SERVICE-PAGE-TEMPLATE.md §11) — internal linking for SEO + UX.
+import SectionTag from './SectionTag.astro';
+import Card from './Card.astro';
+import type { RelatedLink } from '../data/types';
+
+interface Props {
+  subPages?: RelatedLink[];
+  related?: RelatedLink[];
+}
+const { subPages = [], related = [] } = Astro.props;
+const bgs = ['bg-pastel-yellow', 'bg-pastel-cyan', 'bg-pastel-pink', 'bg-pastel-green', 'bg-pastel-purple', 'bg-pastel-orange'];
+---
+
+{
+  (subPages.length > 0 || related.length > 0) && (
+    <section class="py-12 md:py-16">
+      <div class="mx-auto max-w-[1100px] px-4 md:px-8">
+        <SectionTag>Related</SectionTag>
+        <h2 class="mb-8">Explore Further</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[...subPages, ...related].map((link, i) => (
+            <Card as="article" variant="accent" bgClass={bgs[i % bgs.length]} class="!p-5">
+              <a href={link.href} class="font-bold text-sm flex items-center justify-between gap-2">
+                {link.name} <span aria-hidden="true">→</span>
+              </a>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

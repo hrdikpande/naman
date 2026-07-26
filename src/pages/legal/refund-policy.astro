@@ -1,0 +1,35 @@
+---
+// Refund & Cancellation Policy (/legal/refund-policy) — no substantive terms supplied in the brief;
+// content-gap slot, not invented.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionTag from '../../components/SectionTag.astro';
+import { business } from '../../data/business';
+---
+
+<BaseLayout
+  title="Refund & Cancellation Policy"
+  description={`Refund and cancellation policy for services engaged with ${business.displayName}.`}
+  path="/legal/refund-policy"
+  noindex={true}
+>
+  <Breadcrumbs items={[{ name: 'Refund Policy', href: '/legal/refund-policy' }]} />
+
+  <section class="py-12 md:py-16">
+    <div class="mx-auto max-w-[720px] px-4 md:px-8">
+      <SectionTag>Legal</SectionTag>
+      <h1 class="mb-8">Refund & Cancellation Policy</h1>
+      <div class="border-[3px] border-ink rounded-brutal p-6 bg-white">
+        <p class="text-sm text-[#333] leading-relaxed mb-4">
+          <strong>Government Fees:</strong> Once a government fee (e.g., trademark, copyright, or patent filing fee) has been paid to the relevant authority, it is non-refundable under any circumstances, as this is paid directly to and retained by the government, not by us.
+        </p>
+        <p class="text-sm text-[#333] leading-relaxed mb-4">
+          <strong>Professional Fees:</strong> Refund eligibility for our professional/service fees depends on the stage of work completed at the time of cancellation and is assessed on a case-by-case basis for each engagement.
+        </p>
+        <p class="text-sm text-[#333] leading-relaxed">
+          <strong>Cancellation Process:</strong> To cancel an engagement, email bharityaipsolutions@gmail.com with your enquiry/order reference, and we'll confirm the status of your application and any applicable refund.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

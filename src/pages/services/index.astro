@@ -1,0 +1,65 @@
+---
+// Services Hub (/services) — supporting-pages.md.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionTag from '../../components/SectionTag.astro';
+import Card from '../../components/Card.astro';
+import DecisionGuide from '../../components/DecisionGuide.astro';
+import CTABand from '../../components/CTABand.astro';
+import { trademark } from '../../data/services/trademark';
+import { copyright } from '../../data/services/copyright';
+import { patent } from '../../data/services/patent';
+import { privacyPolicy } from '../../data/services/privacy-policy';
+import { primaryActionLabel } from '../../data/business';
+
+const fourServices = [
+  { data: trademark, bg: 'bg-pastel-yellow' },
+  { data: copyright, bg: 'bg-pastel-cyan' },
+  { data: patent, bg: 'bg-pastel-pink' },
+  { data: privacyPolicy, bg: 'bg-pastel-green' },
+];
+---
+
+<BaseLayout
+  title="IPR Services — Trademark, Copyright, Patent & Privacy Policy"
+  description="Explore our IPR registration services: Trademark, Copyright, Patent registration, and Privacy Policy drafting. Find the right service for what you're protecting."
+  path="/services"
+>
+  <Breadcrumbs items={[{ name: 'Services', href: '/services' }]} />
+
+  <section class="py-12 md:py-16 border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <SectionTag>Services</SectionTag>
+      <h1 class="mb-5">Our IPR Registration Services</h1>
+      <p class="text-lg text-[#333] leading-relaxed max-w-2xl">
+        Four services, one consistent process: a clear enquiry, honest guidance, and support through every
+        government stage. Browse each below, or use the decision guide to find the right fit.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-14 md:py-20 bg-white border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[1100px] px-4 md:px-8">
+      <div class="grid sm:grid-cols-2 gap-5">
+        {fourServices.map(({ data, bg }) => (
+          <Card variant="accent" bgClass={bg} as="article">
+            <h2 class="mb-2">{data.name}</h2>
+            <p class="text-sm text-[#333] leading-relaxed mb-4">{data.definition}</p>
+            <a href={data.urlPath} class="inline-flex items-center gap-1.5 font-bold text-sm">
+              Learn more <span aria-hidden="true">→</span>
+            </a>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <DecisionGuide />
+
+  <CTABand
+    heading="Still Not Sure?"
+    body="Start an enquiry and describe what you're protecting — we'll point you to the right service."
+    buttonLabel={primaryActionLabel}
+    buttonHref="/contact"
+  />
+</BaseLayout>

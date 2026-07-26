@@ -1,0 +1,73 @@
+---
+// Contact / Enquiry (/contact) — supporting-pages.md + 03-USER-EXPERIENCE.md.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import SectionTag from '../components/SectionTag.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import { business } from '../data/business';
+---
+
+<BaseLayout
+  title="Contact Us"
+  description={`Start an IPR registration enquiry with ${business.displayName}, or reach us directly by email or phone.`}
+  path="/contact"
+>
+  <Breadcrumbs items={[{ name: 'Contact', href: '/contact' }]} />
+
+  <section class="py-12 md:py-16 border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <SectionTag>Contact</SectionTag>
+      <h1 class="mb-5">Start Your Enquiry</h1>
+      <p class="text-lg text-[#333] leading-relaxed max-w-2xl">
+        Tell us what you need — we respond within 1 business day. No account required.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-14 md:py-20">
+    <div class="mx-auto max-w-[1100px] px-4 md:px-8 grid lg:grid-cols-[1fr_360px] gap-10">
+      <div id="contact-form-wrap">
+        <EnquiryForm id="contact-enquiry-form" />
+      </div>
+
+      <aside class="flex flex-col gap-6">
+        <div class="border-[3px] border-ink rounded-brutal bg-pastel-yellow p-6">
+          <h2 class="text-base mb-3">Direct Channels</h2>
+          <p class="text-sm mb-1">
+            <a href={`mailto:${business.email}`} class="font-bold hover:underline">{business.email}</a>
+          </p>
+          <p class="text-sm">
+            <a href={`tel:+91${business.phone}`} class="font-bold hover:underline">{business.phoneDisplay}</a>
+          </p>
+        </div>
+
+        <div class="border-[3px] border-ink rounded-brutal bg-white p-6">
+          <h2 class="text-base mb-2">Response Time</h2>
+          <p class="text-sm text-[#555] leading-relaxed">
+            We aim to respond to every enquiry within 1 business day.
+          </p>
+        </div>
+
+        <div class="border-[3px] border-ink rounded-brutal bg-magenta/10 p-6">
+          <h2 class="text-base mb-2">Facing a Deadline?</h2>
+          <p class="text-sm text-[#555] leading-relaxed">
+            If you're mid-process — an objection reply, show cause hearing, or opposition counter-statement —
+            call or email us directly rather than waiting on the form. These deadlines are often statutory and
+            cannot be extended.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Pre-select "Service of interest" when arriving from a service page's enquiry link
+  // (e.g. Header CTA or a direct /contact?service=Trademark link).
+  const params = new URLSearchParams(window.location.search);
+  const service = params.get('service');
+  if (service) {
+    const select = document.querySelector('#contact-enquiry-form select[name="service"]');
+    if (select) select.value = service;
+  }
+</script>

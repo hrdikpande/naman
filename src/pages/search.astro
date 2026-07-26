@@ -1,0 +1,101 @@
+---
+// Search Results (/search) — optional internal search (01-SITEMAP.md). Client-side substring
+// filter over a build-time page index (no backend required for a static site).
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionTag from '../components/SectionTag.astro';
+import Input from '../components/Input.astro';
+import { trademark } from '../data/services/trademark';
+import { copyright } from '../data/services/copyright';
+import { patent } from '../data/services/patent';
+import { privacyPolicy } from '../data/services/privacy-policy';
+import { trademarkSubPages } from '../data/subpages/trademark';
+import { copyrightSubPages } from '../data/subpages/copyright';
+import { patentSubPages } from '../data/subpages/patent';
+import { services } from '../data/nav';
+
+const mainPages = [
+  { title: 'Home', description: 'IPR registration services in India.', url: '/' },
+  { title: 'Services', description: 'All four IPR services.', url: '/services' },
+  { title: 'How It Works', description: 'The engagement journey from enquiry to certificate.', url: '/how-it-works' },
+  { title: 'Pricing', description: 'Transparent cost drivers.', url: '/pricing' },
+  { title: 'About', description: 'Who we are.', url: '/about' },
+  { title: 'Contact', description: 'Start an enquiry.', url: '/contact' },
+  { title: 'FAQ', description: 'Frequently asked questions.', url: '/faq' },
+  { title: 'Resources', description: 'Educational articles.', url: '/resources' },
+];
+
+const [main, subs, articles, blogPosts] = await Promise.all([
+  Promise.resolve([trademark, copyright, patent, privacyPolicy].map((s) => ({ title: s.name, description: s.metaDescription, url: s.urlPath }))),
+  Promise.resolve([...trademarkSubPages, ...copyrightSubPages, ...patentSubPages].map((s) => ({ title: s.name, description: s.metaDescription, url: s.urlPath }))),
+  getCollection('resources').then((entries) => entries.map((e) => ({ title: e.data.title, description: e.data.description, url: `/resources/${e.id}` }))),
+  getCollection('blog').then((entries) => entries.map((e) => ({ title: e.data.title, description: e.data.description, url: `/blog/${e.id}` }))),
+]);
+
+const index = [...mainPages, ...main, ...subs, ...articles, ...blogPosts];
+---
+
+<BaseLayout title="Search" description="Search across all IPR registration services and resources." path="/search">
+  <section class="py-12 md:py-16 border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[720px] px-4 md:px-8">
+      <SectionTag>Search</SectionTag>
+      <h1 class="mb-6">Search the Site</h1>
+      <Input label="Search" name="q" placeholder="e.g. trademark objection, patent timeline…" />
+    </div>
+  </section>
+
+  <section class="py-10 md:py-14">
+    <div class="mx-auto max-w-[720px] px-4 md:px-8">
+      <p id="search-status" class="text-sm text-[#666] font-semibold mb-4" role="status"></p>
+      <ul id="search-results" class="flex flex-col gap-3"></ul>
+
+      <div id="search-empty" class="hidden border-[3px] border-ink rounded-brutal bg-pastel-yellow p-6">
+        <p class="font-bold mb-3">No results found. Try one of our main services instead:</p>
+        <div class="flex flex-wrap gap-3">
+          {services.map((s) => (
+            <a href={s.href} class="font-bold text-sm hover:underline">
+              {s.name} →
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script define:vars={{ index }}>
+  const input = document.querySelector('input[name="q"]');
+  const resultsEl = document.getElementById('search-results');
+  const statusEl = document.getElementById('search-status');
+  const emptyEl = document.getElementById('search-empty');
+
+  function render(query) {
+    resultsEl.innerHTML = '';
+    if (!query) {
+      statusEl.textContent = '';
+      emptyEl.classList.add('hidden');
+      return;
+    }
+    const q = query.toLowerCase();
+    const matches = index.filter((item) => item.title.toLowerCase().includes(q) || item.description.toLowerCase().includes(q));
+
+    statusEl.textContent = `${matches.length} result${matches.length === 1 ? '' : 's'} for "${query}"`;
+    emptyEl.classList.toggle('hidden', matches.length > 0);
+
+    for (const item of matches) {
+      const li = document.createElement('li');
+      li.className = 'border-[3px] border-ink rounded-brutal bg-white p-5';
+      li.innerHTML = `<a href="${item.url}" class="font-bold text-base hover:underline">${item.title}</a><p class="text-sm text-[#555] mt-1.5">${item.description}</p>`;
+      resultsEl.appendChild(li);
+    }
+  }
+
+  input?.addEventListener('input', (e) => render(e.target.value.trim()));
+
+  const params = new URLSearchParams(window.location.search);
+  const initial = params.get('q');
+  if (initial) {
+    input.value = initial;
+    render(initial);
+  }
+</script>

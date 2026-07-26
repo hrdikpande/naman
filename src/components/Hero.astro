@@ -1,0 +1,36 @@
+---
+// Asymmetric two-column hero (neo.skill hero spec), adapted single-column for content/service pages.
+import SectionTag from './SectionTag.astro';
+import Button from './Button.astro';
+
+interface Props {
+  tag?: string;
+  title: string;
+  subtitle: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+}
+const { tag, title, subtitle, primaryLabel, primaryHref, secondaryLabel, secondaryHref } = Astro.props;
+---
+
+<section class="border-b-[3px] border-ink bg-paper">
+  <div class="mx-auto max-w-[880px] px-4 md:px-8 py-14 md:py-20">
+    {tag && <SectionTag>{tag}</SectionTag>}
+    <h1 class="mb-5">{title}</h1>
+    <p class="text-lg md:text-xl text-[#333] leading-relaxed max-w-2xl mb-8">{subtitle}</p>
+    {
+      (primaryLabel || secondaryLabel) && (
+        <div class="flex flex-wrap gap-4">
+          {primaryLabel && primaryHref && <Button href={primaryHref}>{primaryLabel}</Button>}
+          {secondaryLabel && secondaryHref && (
+            <Button href={secondaryHref} variant="white">
+              {secondaryLabel}
+            </Button>
+          )}
+        </div>
+      )
+    }
+  </div>
+</section>

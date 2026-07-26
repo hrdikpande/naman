@@ -1,0 +1,102 @@
+---
+// Trimmed sub-page template (04-SERVICE-PAGE-TEMPLATE.md "Consistency rules"):
+// definition → deadline (if any) → what's included → process → documents → FAQ → primary action.
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import SectionTag from '../components/SectionTag.astro';
+import Button from '../components/Button.astro';
+import PhonePopup from '../components/PhonePopup.astro';
+import ProcessSteps from '../components/ProcessSteps.astro';
+import DocumentsChecklist from '../components/DocumentsChecklist.astro';
+import FAQBlock from '../components/FAQBlock.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import type { SubPageData, ServiceData } from '../data/types';
+
+interface Props {
+  data: SubPageData;
+  parent: ServiceData;
+}
+const { data, parent } = Astro.props;
+---
+
+<BaseLayout title={data.metaTitle} description={data.metaDescription} path={data.urlPath}>
+  <Breadcrumbs
+    items={[
+      { name: 'Services', href: '/services' },
+      { name: parent.name, href: parent.urlPath },
+      { name: data.name, href: data.urlPath },
+    ]}
+  />
+
+  <!-- Definition + deadline + primary action (top) -->
+  <section class="border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8 py-14 md:py-16">
+      <SectionTag>{parent.name} Sub-Service</SectionTag>
+      <h1 class="mb-5">{data.name}</h1>
+      <p class="text-lg md:text-xl text-[#333] leading-relaxed max-w-2xl mb-6">{data.definition}</p>
+      {
+        data.deadline && (
+          <p class="inline-flex items-center gap-2 bg-pastel-orange border-[3px] border-ink rounded-brutal px-4 py-2.5 text-sm font-bold mb-6">
+            <span aria-hidden="true">⏱</span> {data.deadline}
+          </p>
+        )
+      }
+      <div class="flex flex-wrap gap-4">
+        <Button href="#enquiry" arrow="↓">{data.primaryActionLabel}</Button>
+        <PhonePopup />
+      </div>
+    </div>
+  </section>
+
+  {
+    data.ownerSupplyNote && (
+      <div class="bg-pastel-orange border-b-[3px] border-ink px-4 md:px-8 py-3 text-sm font-semibold text-center">
+        {data.ownerSupplyNote}
+      </div>
+    )
+  }
+
+  <!-- What's included -->
+  <section class="py-12 md:py-16 bg-white border-y-[3px] border-ink">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <SectionTag>What You Get</SectionTag>
+      <h2 class="mb-8">What's Included</h2>
+      <ul class="flex flex-col gap-3">
+        {data.whatsIncluded.map((item) => (
+          <li class="flex items-start gap-3">
+            <span class="shrink-0 w-[18px] h-[18px] mt-0.5 flex items-center justify-center bg-cyan border-2 border-ink rounded-sm text-[11px] font-bold" aria-hidden="true">✓</span>
+            <span class="text-[#333] leading-snug">{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <ProcessSteps steps={data.process} heading={`${data.name} — Step by Step`} />
+
+  <!-- Documents -->
+  {data.documents && <DocumentsChecklist documents={data.documents} />}
+
+  <!-- Back to parent service -->
+  <section class="py-8">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <a href={parent.urlPath} class="inline-flex items-center gap-2 font-bold text-sm hover:underline">
+        <span aria-hidden="true">←</span> Back to {parent.name}
+      </a>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <FAQBlock items={data.faq} heading={`${data.name} — Common Questions`} />
+
+  <!-- Primary action (bottom, repeated) -->
+  <section id="enquiry" class="py-14 md:py-20 bg-paper border-t-[3px] border-ink">
+    <div class="mx-auto max-w-[640px] px-4 md:px-8">
+      <SectionTag>Get Started</SectionTag>
+      <h2 class="mb-3">{data.primaryActionLabel}</h2>
+      <p class="text-[#333] mb-8">Tell us a bit about what you need — we'll respond within 1 business day.</p>
+      <EnquiryForm presetService={parent.slug === 'privacy-policy' ? 'Privacy Policy' : parent.name.replace(' Registration', '').replace(' Drafting', '')} />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,37 @@
+---
+// 404 — friendly not-found + routes back into the funnel (03-USER-EXPERIENCE.md, 01-SITEMAP.md).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionTag from '../components/SectionTag.astro';
+import Button from '../components/Button.astro';
+import { services } from '../data/nav';
+---
+
+<BaseLayout
+  title="Page Not Found"
+  description="This page couldn't be found. Explore our IPR registration services or search the site."
+  path="/404"
+  noindex={true}
+>
+  <section class="py-16 md:py-24">
+    <div class="mx-auto max-w-[640px] px-4 md:px-8 text-center">
+      <SectionTag>404</SectionTag>
+      <h1 class="mb-4">We Couldn't Find That Page</h1>
+      <p class="text-lg text-[#333] leading-relaxed mb-10">
+        The page you're looking for may have moved or doesn't exist. Here's where you probably meant to go:
+      </p>
+
+      <div class="grid sm:grid-cols-2 gap-4 mb-10 text-left">
+        {services.map((s, i) => (
+          <a href={s.href} class:list={['border-[3px] border-ink rounded-brutal p-5 font-bold hover:bg-yellow transition-colors', ['bg-pastel-yellow', 'bg-pastel-cyan', 'bg-pastel-pink', 'bg-pastel-green'][i % 4]]}>
+            {s.name} <span aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-4">
+        <Button href="/">Back to Home</Button>
+        <Button href="/search" variant="white">Search the Site</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,124 @@
+---
+// Enquiry form block — reused on service pages + Contact (06-GLOBAL-CONTENT.md).
+// Name, Email, Phone, Service of interest, Message. Pre-tags service when opened from a service page.
+// Inline, plain-language validation (03-USER-EXPERIENCE.md). No account creation required.
+//
+// Backend: Netlify Forms — zero-config for a static site hosted on Netlify. Netlify's build bot
+// detects this form from the static HTML (the `data-netlify` attribute + hidden `form-name` input
+// below are required for that detection) and every submission lands in the Netlify dashboard /
+// forwards to email, no API key or third-party service needed. Submitted via fetch() so we keep
+// our own inline validation and the redirect to /enquiry/thank-you on success.
+import Input from './Input.astro';
+import Button from './Button.astro';
+import { services } from '../data/nav';
+
+interface Props {
+  presetService?: string;
+  id?: string;
+}
+const { presetService, id = 'enquiry-form' } = Astro.props;
+
+const serviceOptions = [
+  { value: '', label: 'Select a service…' },
+  ...services.map((s) => ({ value: s.name, label: s.name })),
+  { value: 'Not sure', label: "I'm not sure yet" },
+];
+---
+
+<form
+  id={id}
+  name="enquiry"
+  method="POST"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  class="flex flex-col gap-5 bg-white border-[3px] border-ink rounded-brutal shadow-brutal p-6 md:p-8"
+  novalidate
+>
+  <input type="hidden" name="form-name" value="enquiry" />
+  <p class="hidden">
+    <label>Leave this field blank: <input name="bot-field" /></label>
+  </p>
+
+  <Input label="Name" name="name" required autocomplete="name" placeholder="Your full name" />
+  <Input label="Email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" />
+  <Input label="Phone" name="phone" type="tel" required autocomplete="tel" placeholder="10-digit mobile number" />
+  <Input label="Service of interest" name="service" as="select" required options={serviceOptions} value={presetService ?? ''} />
+  <Input label="Message" name="message" as="textarea" placeholder="Tell us briefly what you need help with" />
+
+  <p class="text-xs text-[#666]" role="status">No account needed. We typically respond within 1 business day.</p>
+  <p class="text-sm text-magenta font-semibold min-h-[1.25em]" data-submit-error role="alert"></p>
+
+  <Button type="submit" class="w-full justify-center" id={`${id}-submit`}>Start Enquiry</Button>
+</form>
+
+<script define:vars={{ id }}>
+  const form = document.getElementById(id);
+  const submitBtn = document.getElementById(`${id}-submit`);
+  const submitError = form?.querySelector('[data-submit-error]');
+
+  function setError(name, message) {
+    const el = form.querySelector(`[data-error-for="${name}"]`);
+    const field = form.querySelector(`[name="${name}"]`);
+    if (el) el.textContent = message;
+    if (field) field.setAttribute('aria-invalid', message ? 'true' : 'false');
+  }
+
+  function validate(data) {
+    let valid = true;
+    if (!data.get('name')?.toString().trim()) {
+      setError('name', 'Please enter your name.');
+      valid = false;
+    } else setError('name', '');
+
+    const email = data.get('email')?.toString().trim() ?? '';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError('email', 'Enter a valid email address.');
+      valid = false;
+    } else setError('email', '');
+
+    const phone = data.get('phone')?.toString().replace(/\D/g, '') ?? '';
+    if (phone.length !== 10) {
+      setError('phone', 'Enter a valid 10-digit phone number.');
+      valid = false;
+    } else setError('phone', '');
+
+    if (!data.get('service')) {
+      setError('service', 'Please select a service.');
+      valid = false;
+    } else setError('service', '');
+
+    return valid;
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    if (!validate(data)) {
+      form.querySelector('[aria-invalid="true"]')?.focus();
+      return;
+    }
+
+    if (submitError) submitError.textContent = '';
+    submitBtn?.setAttribute('disabled', 'true');
+
+    try {
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(data).toString(),
+      });
+      if (!res.ok) throw new Error(`Submission failed (${res.status})`);
+
+      const params = new URLSearchParams({
+        service: data.get('service')?.toString() ?? '',
+        name: data.get('name')?.toString() ?? '',
+      });
+      window.location.href = `/enquiry/thank-you?${params.toString()}`;
+    } catch {
+      if (submitError) {
+        submitError.textContent = "Something went wrong sending your enquiry. Please try again, or email us directly.";
+      }
+      submitBtn?.removeAttribute('disabled');
+    }
+  });
+</script>

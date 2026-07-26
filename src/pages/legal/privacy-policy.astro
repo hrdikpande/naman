@@ -1,0 +1,50 @@
+---
+// Site Privacy Policy (/legal/privacy-policy) — the site's OWN data-handling policy, distinct from
+// the Privacy Policy DRAFTING SERVICE sold at /services/privacy-policy (01-SITEMAP.md note).
+// No substantive legal text is supplied anywhere in the brief — content-gap slot, not invented,
+// same treatment as the owner-supplied Privacy Policy service page.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionTag from '../../components/SectionTag.astro';
+import { business } from '../../data/business';
+---
+
+<BaseLayout
+  title="Site Privacy Policy"
+  description={`How ${business.displayName} collects, uses, and protects data on this website.`}
+  path="/legal/privacy-policy"
+  noindex={true}
+>
+  <Breadcrumbs items={[{ name: 'Site Privacy Policy', href: '/legal/privacy-policy' }]} />
+
+  <section class="py-12 md:py-16">
+    <div class="mx-auto max-w-[720px] px-4 md:px-8">
+      <SectionTag>Legal</SectionTag>
+      <h1 class="mb-4">Site Privacy Policy</h1>
+      <p class="text-sm text-[#666] mb-8">
+        This is <strong>this website's own</strong> data-handling policy — not the Privacy Policy
+        drafting service we offer clients. See <a href="/services/privacy-policy" class="underline font-bold">our Privacy Policy drafting service</a> if you need one for your own site or app.
+      </p>
+      <div class="border-[3px] border-ink rounded-brutal p-6 bg-white">
+        <p class="text-sm text-[#333] leading-relaxed mb-4">
+          This Privacy Policy explains how Bhartiya IP Solutions ("we," "us") collects, uses, and protects information when you visit this website or submit an enquiry.
+        </p>
+        <p class="text-sm text-[#333] leading-relaxed mb-4">
+          <strong>Information we collect:</strong> When you submit our contact/enquiry form, we collect the name, email address, phone number, and any project details you share with us. We also use Netlify Forms to process form submissions; see their privacy policy for how they handle data.
+        </p>
+        <p class="text-sm text-[#333] leading-relaxed mb-4">
+          <strong>How we use it:</strong> To respond to your enquiry, provide quotes, and deliver the services you engage us for. We do not sell your personal data to third parties.
+        </p>
+        <p class="text-sm text-[#333] leading-relaxed mb-4">
+          <strong>Data retention & security:</strong> We retain enquiry and client data only as long as needed to deliver services and meet legal/tax record-keeping obligations, and take reasonable measures to protect it from unauthorised access.
+        </p>
+        <p class="text-sm text-[#333] leading-relaxed mb-4">
+          <strong>Your rights:</strong> You may request access to, correction of, or deletion of your personal data by writing to bharityaipsolutions@gmail.com.
+        </p>
+        <p class="text-sm text-[#333] leading-relaxed">
+          <strong>Changes:</strong> We may update this policy periodically; the latest version will always be posted here.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

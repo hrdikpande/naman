@@ -1,0 +1,110 @@
+---
+// How It Works (/how-it-works) — supporting-pages.md.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import SectionTag from '../components/SectionTag.astro';
+import CTABand from '../components/CTABand.astro';
+import { primaryActionLabel } from '../data/business';
+
+const stages = [
+  {
+    title: 'Enquiry',
+    weDo: 'Receive your enquiry and pre-tag it to the service you selected.',
+    youDo: 'Tell us what you need to protect and share your contact details.',
+  },
+  {
+    title: 'Consultation / Assessment',
+    weDo: 'Review your situation, recommend the right service (and class/category where relevant), and outline scope and cost drivers.',
+    youDo: 'Answer a few clarifying questions about your brand, work, or invention.',
+  },
+  {
+    title: 'Document Collection',
+    weDo: 'Send you a checklist specific to your service.',
+    youDo: 'Provide the required documents (see each service page for its checklist).',
+  },
+  {
+    title: 'Filing',
+    weDo: 'Prepare and file your application with the relevant government authority (IP India, the Copyright Office, or the Patent Office).',
+    youDo: 'Review and sign any Power of Attorney or declaration forms required.',
+  },
+  {
+    title: 'Government Process',
+    weDo: 'Track status and handle examination, objections, hearings, or opposition on your behalf where engaged.',
+    youDo: 'Respond promptly if we need additional evidence or information — deadlines here are statutory and often cannot be extended.',
+  },
+  {
+    title: 'Outcome / Certificate',
+    weDo: 'Notify you of the outcome and deliver your registration certificate once granted.',
+    youDo: 'Nothing further — though we recommend calendar-tracking renewal dates for trademarks and patents.',
+  },
+];
+---
+
+<BaseLayout
+  title="How It Works — IPR Registration Process"
+  description="The generic engagement journey for trademark, copyright, and patent registration in India: enquiry, assessment, filing, government process, and outcome."
+  path="/how-it-works"
+>
+  <Breadcrumbs items={[{ name: 'How It Works', href: '/how-it-works' }]} />
+
+  <section class="py-12 md:py-16 border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <SectionTag>Process</SectionTag>
+      <h1 class="mb-5">How It Works</h1>
+      <p class="text-lg text-[#333] leading-relaxed max-w-2xl">
+        Every service we offer follows the same six-stage journey. Here's what we do at each stage, and what
+        we'll need from you.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-14 md:py-20 bg-white border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <ol class="flex flex-col gap-6">
+        {stages.map((stage, i) => (
+          <li class="border-[3px] border-ink rounded-brutal p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="w-9 h-9 flex items-center justify-center bg-yellow border-[3px] border-ink rounded-brutal font-black text-sm" aria-hidden="true">{i + 1}</span>
+              <h2 class="text-xl">{stage.title}</h2>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-4 pl-1">
+              <div>
+                <p class="label-meta mb-1.5">We Do</p>
+                <p class="text-sm text-[#333] leading-relaxed">{stage.weDo}</p>
+              </div>
+              <div>
+                <p class="label-meta mb-1.5">You Provide</p>
+                <p class="text-sm text-[#333] leading-relaxed">{stage.youDo}</p>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="py-14 md:py-20">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <SectionTag>Communication</SectionTag>
+      <h2 class="mb-4">How We Keep You Updated</h2>
+      <p class="text-[#333] leading-relaxed mb-4">
+        We respond to enquiries within 1 business day and update you at every major milestone — filing
+        confirmation, examination outcomes, and any deadline that needs your input. Government stages
+        (examination, objections, hearings, opposition) are outside anyone's control and can shift the overall
+        timeline; we flag this honestly rather than promising a fixed date.
+      </p>
+      <div class="flex flex-wrap gap-3 mt-6">
+        <a href="/services/trademark" class="font-bold text-sm hover:underline">Trademark process →</a>
+        <a href="/services/copyright" class="font-bold text-sm hover:underline">Copyright process →</a>
+        <a href="/services/patent" class="font-bold text-sm hover:underline">Patent process →</a>
+      </div>
+    </div>
+  </section>
+
+  <CTABand
+    heading="Ready to Begin?"
+    body="Start an enquiry and we'll walk you through the process for your specific service."
+    buttonLabel={primaryActionLabel}
+    buttonHref="/contact"
+  />
+</BaseLayout>

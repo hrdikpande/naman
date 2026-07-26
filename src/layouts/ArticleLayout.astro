@@ -1,0 +1,98 @@
+---
+// Resources article layout — Article schema + freshness date (05-SEO-AND-GEO.md GEO requirements).
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import SectionTag from '../components/SectionTag.astro';
+import CTABand from '../components/CTABand.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { articleSchema } from '../lib/schema';
+import { business, primaryActionLabel } from '../data/business';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'resources'>;
+}
+const { entry } = Astro.props;
+const { title, description, pubDate, updatedDate, relatedService } = entry.data;
+const path = `/resources/${entry.id}`;
+
+const dateFormat = new Intl.DateTimeFormat('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout title={title} description={description} path={path}>
+  <Breadcrumbs items={[{ name: 'Resources', href: '/resources' }, { name: title, href: path }]} />
+
+  <article class="py-12 md:py-16 border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[720px] px-4 md:px-8">
+      <SectionTag>Resources</SectionTag>
+      <h1 class="mb-4">{title}</h1>
+      <p class="text-sm text-[#666] font-semibold mb-8">
+        Published {dateFormat.format(pubDate)}
+        {updatedDate && ` · Updated ${dateFormat.format(updatedDate)}`}
+      </p>
+      <div class="prose-article">
+        <slot />
+      </div>
+    </div>
+  </article>
+
+  <CTABand
+    heading="Have Questions About Your Situation?"
+    body="Start an enquiry and we'll give you specific guidance, not just general information."
+    buttonLabel={primaryActionLabel}
+    buttonHref={`/contact${relatedService.startsWith('/services/') ? `?service=${encodeURIComponent(relatedService.split('/')[2])}` : ''}`}
+  />
+
+  <JsonLd
+    data={articleSchema({
+      title,
+      description,
+      url: business.siteUrl + path,
+      pubDate,
+      updatedDate,
+    })}
+  />
+</BaseLayout>
+
+<style>
+  .prose-article :global(h2) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose-article :global(p) {
+    color: #333;
+    margin-bottom: 1.1rem;
+  }
+  .prose-article :global(ul),
+  .prose-article :global(ol) {
+    margin: 0 0 1.1rem 1.25rem;
+    color: #333;
+  }
+  .prose-article :global(li) {
+    margin-bottom: 0.4rem;
+  }
+  .prose-article :global(a) {
+    font-weight: 700;
+    text-decoration: underline;
+  }
+  .prose-article :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+    border: 3px solid #0a0a0a;
+  }
+  .prose-article :global(th),
+  .prose-article :global(td) {
+    border: 1px solid #0a0a0a;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+  .prose-article :global(th) {
+    background: #ffe600;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+</style>

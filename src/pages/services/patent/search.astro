@@ -1,0 +1,9 @@
+---
+import SubServiceLayout from '../../../layouts/SubServiceLayout.astro';
+import { patentSubPages } from '../../../data/subpages/patent';
+import { patent } from '../../../data/services/patent';
+
+const data = patentSubPages.find((s) => s.slug === 'search')!;
+---
+
+<SubServiceLayout data={data} parent={patent} />

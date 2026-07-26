@@ -1,0 +1,95 @@
+---
+import { business } from '../data/business';
+---
+
+<div class="inline-block">
+  <!-- Mobile version (tel link) -->
+  <a href={`tel:+91${business.phone}`} class="md:hidden inline-flex justify-center items-center gap-1.5 bg-white text-ink border-[3px] border-ink rounded-brutal shadow-brutal-sm px-6 py-3 font-bold text-sm uppercase tracking-wide hover:-translate-y-0.5 hover:shadow-brutal transition-transform">
+    Connect over call here
+  </a>
+
+  <!-- Desktop version (popup trigger) -->
+  <button type="button" class="hidden md:inline-flex items-center gap-1.5 bg-white text-ink border-[3px] border-ink rounded-brutal shadow-brutal-sm px-6 py-3 font-bold text-sm uppercase tracking-wide hover:-translate-y-0.5 hover:shadow-brutal transition-transform popup-trigger">
+    Connect over call here
+  </button>
+
+  <!-- Popup dialog -->
+  <dialog class="phone-dialog bg-white border-[3px] border-ink rounded-brutal shadow-brutal p-6 max-w-sm w-full mx-auto backdrop:bg-ink/50 backdrop:backdrop-blur-sm m-0 z-50 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+    <div class="flex flex-col gap-4">
+      <div class="flex justify-between items-start">
+        <h3 class="text-xl font-black uppercase tracking-tight">Call Us</h3>
+        <button type="button" class="close-dialog w-8 h-8 flex items-center justify-center border-2 border-ink rounded-brutal hover:bg-yellow font-black" aria-label="Close">×</button>
+      </div>
+      <p class="text-sm text-[#555]">We are available Monday to Saturday, 10 AM to 6 PM.</p>
+      
+      <div class="flex items-center gap-2 mt-2">
+        <div class="flex-1 bg-paper border-[3px] border-ink rounded-brutal px-4 py-3 font-bold font-mono text-lg text-center tracking-wider">
+          {business.phoneDisplay}
+        </div>
+        <button type="button" class="copy-phone shrink-0 bg-yellow border-[3px] border-ink rounded-brutal px-4 py-3 font-bold text-sm hover:-translate-y-0.5 hover:shadow-brutal-sm transition-transform" data-phone={business.phoneDisplay}>
+          Copy
+        </button>
+      </div>
+      <p class="copy-status text-green-600 font-bold text-sm h-5 text-center transition-opacity opacity-0">Copied to clipboard!</p>
+    </div>
+  </dialog>
+</div>
+
+<script>
+  function setupPhonePopups() {
+    const triggers = document.querySelectorAll('.popup-trigger');
+    const dialogs = document.querySelectorAll('.phone-dialog');
+    const closeBtns = document.querySelectorAll('.close-dialog');
+    const copyBtns = document.querySelectorAll('.copy-phone');
+
+    triggers.forEach((trigger, i) => {
+      const dialog = dialogs[i];
+      if (dialog instanceof HTMLDialogElement) {
+        trigger.addEventListener('click', () => dialog.showModal());
+      }
+    });
+
+    closeBtns.forEach((btn, i) => {
+      const dialog = dialogs[i];
+      if (dialog instanceof HTMLDialogElement) {
+        btn.addEventListener('click', () => dialog.close());
+      }
+    });
+
+    copyBtns.forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const phone = btn.getAttribute('data-phone');
+        if (phone) {
+          try {
+            await navigator.clipboard.writeText(phone);
+            const status = btn.parentElement?.nextElementSibling as HTMLElement;
+            if (status) {
+              status.classList.remove('opacity-0');
+              setTimeout(() => status.classList.add('opacity-0'), 2000);
+            }
+          } catch (err) {
+            console.error('Failed to copy text: ', err);
+          }
+        }
+      });
+    });
+
+    dialogs.forEach(dialog => {
+      dialog.addEventListener('click', (e) => {
+        const dialogDimensions = dialog.getBoundingClientRect();
+        if (
+          e.clientX < dialogDimensions.left ||
+          e.clientX > dialogDimensions.right ||
+          e.clientY < dialogDimensions.top ||
+          e.clientY > dialogDimensions.bottom
+        ) {
+          (dialog as HTMLDialogElement).close();
+        }
+      });
+    });
+  }
+
+  // Setup on initial load and view transitions
+  setupPhonePopups();
+  document.addEventListener('astro:page-load', setupPhonePopups);
+</script>

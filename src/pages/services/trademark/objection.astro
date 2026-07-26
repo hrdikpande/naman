@@ -1,0 +1,9 @@
+---
+import SubServiceLayout from '../../../layouts/SubServiceLayout.astro';
+import { trademarkSubPages } from '../../../data/subpages/trademark';
+import { trademark } from '../../../data/services/trademark';
+
+const data = trademarkSubPages.find((s) => s.slug === 'objection')!;
+---
+
+<SubServiceLayout data={data} parent={trademark} />

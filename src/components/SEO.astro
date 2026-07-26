@@ -1,0 +1,37 @@
+---
+// Per-page metadata per 05-SEO-AND-GEO.md: unique title, ~150-160 char description, self-referencing
+// canonical, OG/Twitter tags.
+import { business } from '../data/business';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string; // e.g. "/services/trademark"
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const { title, description, path, ogImage = '/og-default.png', noindex = false } = Astro.props;
+const canonical = new URL(path, business.siteUrl).toString();
+const fullTitle = title.includes(business.displayName) ? title : `${title} | ${business.displayName}`;
+
+// Optional — only rendered once the owner has a real Search Console verification code (.env.example).
+const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex,follow" />}
+{googleSiteVerification && <meta name="google-site-verification" content={googleSiteVerification} />}
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={new URL(ogImage, business.siteUrl).toString()} />
+<meta property="og:site_name" content={business.displayName} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />

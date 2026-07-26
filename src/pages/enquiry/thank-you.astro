@@ -1,0 +1,58 @@
+---
+// Enquiry Confirmation (/enquiry/thank-you) — 03-USER-EXPERIENCE.md "Post-enquiry experience".
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionTag from '../../components/SectionTag.astro';
+import Button from '../../components/Button.astro';
+import { business } from '../../data/business';
+---
+
+<BaseLayout
+  title="Thank You — Enquiry Received"
+  description="Your enquiry has been received. Here's what happens next."
+  path="/enquiry/thank-you"
+  noindex={true}
+>
+  <section class="py-16 md:py-24">
+    <div class="mx-auto max-w-[640px] px-4 md:px-8 text-center">
+      <span class="inline-flex w-14 h-14 items-center justify-center bg-green border-[3px] border-ink rounded-brutal shadow-brutal text-2xl mb-6" aria-hidden="true">✓</span>
+      <SectionTag class="mb-2">Enquiry Received</SectionTag>
+      <h1 class="mb-4">Thanks<span id="ty-name">!</span></h1>
+      <p class="text-lg text-[#333] leading-relaxed mb-2">
+        We've received your enquiry<span id="ty-service"></span>.
+      </p>
+      <p class="text-[#555] leading-relaxed mb-10">
+        A member of our team will review it and respond within <strong>1 business day</strong> with next
+        steps and what we'll need from you to get started.
+      </p>
+
+      <div class="grid sm:grid-cols-2 gap-4 mb-10 text-left">
+        <div class="border-[3px] border-ink rounded-brutal bg-white p-5">
+          <h2 class="text-base mb-2">While You Wait</h2>
+          <p class="text-sm text-[#555] leading-relaxed mb-3">Browse guides or check common questions.</p>
+          <div class="flex flex-col gap-1.5">
+            <a href="/resources" class="font-bold text-sm hover:underline">Resources →</a>
+            <a href="/faq" class="font-bold text-sm hover:underline">FAQ →</a>
+          </div>
+        </div>
+        <div class="border-[3px] border-ink rounded-brutal bg-pastel-yellow p-5">
+          <h2 class="text-base mb-2">Urgent / Deadline?</h2>
+          <p class="text-sm text-[#333] leading-relaxed mb-3">If you're facing a statutory deadline, reach out directly:</p>
+          <p class="text-sm font-bold"><a href={`mailto:${business.email}`} class="hover:underline">{business.email}</a></p>
+          <p class="text-sm font-bold"><a href={`tel:+91${business.phone}`} class="hover:underline">{business.phoneDisplay}</a></p>
+        </div>
+      </div>
+
+      <Button href="/">Back to Home</Button>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const name = params.get('name');
+  const service = params.get('service');
+  const nameEl = document.getElementById('ty-name');
+  const serviceEl = document.getElementById('ty-service');
+  if (nameEl && name) nameEl.textContent = `, ${name}!`;
+  if (serviceEl && service) serviceEl.textContent = ` about ${service}`;
+</script>

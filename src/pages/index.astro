@@ -1,0 +1,168 @@
+---
+// Home (/) — content order per supporting-pages.md.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionTag from '../components/SectionTag.astro';
+import Button from '../components/Button.astro';
+import Card from '../components/Card.astro';
+import DecisionGuide from '../components/DecisionGuide.astro';
+import FAQBlock from '../components/FAQBlock.astro';
+import CTABand from '../components/CTABand.astro';
+import PhonePopup from '../components/PhonePopup.astro';
+import LogoCarousel from '../components/LogoCarousel.astro';
+import { trademark } from '../data/services/trademark';
+import { copyright } from '../data/services/copyright';
+import { patent } from '../data/services/patent';
+import { privacyPolicy } from '../data/services/privacy-policy';
+import { business, disclaimer, primaryActionLabel } from '../data/business';
+
+const allServices = [
+  { data: { ...trademark, definition: trademark.definition + ' Register today your brand name / logo / slogan / shape / packaging / trade dress / website and smell' }, bg: 'bg-pastel-yellow', icon: '™' },
+  { data: copyright, bg: 'bg-pastel-cyan', icon: '©' },
+  { data: patent, bg: 'bg-pastel-pink', icon: '℗' },
+  { data: { ...privacyPolicy, definition: 'Our expert can draft privacy policy and terms and condition for websites mobile apps online businesses' }, bg: 'bg-pastel-green', icon: '🛡️📄' },
+  { data: { name: 'Design Registration', definition: 'Our expert can help you to protect your product 3d shapes like custom bottles or shaped chair / shapes for perfume or oils, textile prints or embroidery patterns / Ornate furniture fitting, eye-catching packaging', urlPath: '/contact' }, bg: 'bg-pastel-purple', icon: '📐' },
+  { data: { name: 'Agreement Drafting', definition: 'Our expert can draft rent agreement / lease agreement / NDA / employment agreement, Service level agreement MSA (Master service agreement), and MOU', urlPath: '/contact' }, bg: 'bg-pastel-orange', icon: '🤝' },
+];
+
+const clientLogos = [
+  { name: 'AshiLegal', src: '/1.png', fallbackText: 'AshiLegal' },
+  { name: 'Spotwebs', src: '/2.png', fallbackText: 'Spotwebs' },
+  { name: 'Global Public School', src: '/3.png', fallbackText: 'Global Public School' },
+  { name: 'Shyam Sundar Chandiwala', src: '/4.png', fallbackText: 'Shyam Sundar Chandiwala' },
+  { name: 'High Growth', src: '/5.png', fallbackText: 'High Growth (since 1992)' },
+  { name: 'JSA', src: '', fallbackText: 'JSA' },
+];
+
+const howItWorks = [
+  { title: 'Enquire', desc: 'Tell us what you need to protect and share the basics.' },
+  { title: 'We Assess', desc: 'We review your situation and recommend the right service and class/category.' },
+  { title: 'We File', desc: 'We prepare and file your application with the relevant government authority.' },
+  { title: "You're Protected", desc: 'We track status through to your registration certificate, handling any objections along the way.' },
+];
+
+const globalFaq = [
+  { question: "What's the difference between trademark, copyright, and patent?", answer: 'A trademark protects a brand identifier (name, logo, slogan). Copyright protects original creative works (writing, music, art, software). A patent protects an invention (a new product or process). Many businesses need more than one.' },
+  { question: 'Is IPR registration mandatory?', answer: 'It depends on the right — copyright protection is automatic on creation, while trademark and patent rights are only secured through registration. In all cases, registration makes enforcement dramatically easier.' },
+  { question: 'How do I know which service I need?', answer: 'Use the "Which service do I need?" guide above, or start an enquiry — we\'ll help you figure it out.' },
+];
+---
+
+<BaseLayout
+  title="IPR Registration Services in India"
+  description="Trademark, Copyright, Patent, and Privacy Policy registration services in India. Transparent process, honest timelines, human support from enquiry to certificate."
+  path="/"
+>
+  <!-- Hero -->
+  <section class="border-b-[3px] border-ink bg-paper">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8 py-16 md:py-24">
+      <span class="inline-block bg-yellow border-[3px] border-ink rounded-brutal shadow-brutal-sm px-3.5 py-1.5 text-xs font-bold uppercase tracking-wideish mb-6">
+        IPR Registration Services · India
+      </span>
+      <h1 class="mb-6">Protect Your Brand Through Trademark, Patent and Copyright.</h1>
+      <p class="text-lg md:text-xl text-[#333] leading-relaxed max-w-2xl mb-8">
+        {business.displayName} helps founders, creators, and inventors register trademarks, copyrights, and
+        patents in India — and draft privacy policies for their websites and apps. Plain-language guidance,
+        transparent fees, and support through every government stage.
+      </p>
+      <div class="flex flex-wrap gap-4 mb-8">
+        <Button href="/contact">{primaryActionLabel}</Button>
+        <PhonePopup />
+      </div>
+      <ul class="flex flex-wrap gap-x-6 gap-y-2">
+        {['Transparent, government-linked fees', 'Full support through objections & disputes', 'No account needed to enquire', 'On time service', 'Affordable price', 'Quick response team', 'Team with 5+ years of experience', 'Pan India service'].map((point) => (
+          <li class="flex items-center gap-1.5 text-sm font-semibold text-[#333]">
+            <span class="w-[18px] h-[18px] flex items-center justify-center bg-green border-2 border-ink rounded-sm text-[11px]" aria-hidden="true">✓</span>
+            {point}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Four services -->
+  <section class="py-14 md:py-20 bg-white border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[1100px] px-4 md:px-8">
+      <SectionTag>Our Services</SectionTag>
+      <h2 class="mb-8">Ways We Protect Your Work</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {allServices.map(({ data, bg, icon }) => (
+          <Card variant="accent" bgClass={bg} as="article" class="flex flex-col">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="w-10 h-10 flex items-center justify-center bg-white border-[3px] border-ink rounded-brutal shadow-brutal-sm text-lg" aria-hidden="true">{icon}</span>
+              <h3 class="text-xl m-0">{data.name}</h3>
+            </div>
+            <p class="text-sm text-[#333] leading-relaxed mb-4 flex-grow">{data.definition}</p>
+            <a href={data.urlPath} class="inline-flex items-center gap-1.5 font-bold text-sm mt-auto">
+              Learn more <span aria-hidden="true">→</span>
+            </a>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Decision guide -->
+  <DecisionGuide />
+
+  <!-- How it works -->
+  <section class="py-14 md:py-20">
+    <div class="mx-auto max-w-[1100px] px-4 md:px-8">
+      <SectionTag>How It Works</SectionTag>
+      <h2 class="mb-8">From Enquiry to Protected, in Four Steps</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {howItWorks.map((step, i) => (
+          <div class="border-[3px] border-ink rounded-brutal bg-white p-5">
+            <span class="inline-flex w-8 h-8 items-center justify-center bg-ink text-white rounded-brutal font-black text-sm mb-3">{i + 1}</span>
+            <h3 class="text-base mb-1.5">{step.title}</h3>
+            <p class="text-sm text-[#555] leading-snug">{step.desc}</p>
+          </div>
+        ))}
+      </div>
+      <Button href="/how-it-works" variant="white">See the Full Process</Button>
+    </div>
+  </section>
+
+  <!-- Trust strip -->
+  <section class="py-14 md:py-20 bg-ink text-white">
+    <div class="mx-auto max-w-[1100px] px-4 md:px-8 grid md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-yellow mb-2">Honest, Not Hyped</h3>
+        <p class="text-sm text-white/75 leading-relaxed">
+          Registration outcomes depend on the relevant government authority and can never be guaranteed by us or
+          anyone else. We tell you the real timeline, including the government-dependent stages, up front.
+        </p>
+      </div>
+      <div>
+        <h3 class="text-yellow mb-2">What Happens After You Enquire</h3>
+        <p class="text-sm text-white/75 leading-relaxed">
+          A member of our team reviews your enquiry and responds within 1 business day with next steps and what
+          we'll need from you to get started.
+        </p>
+      </div>
+      <div>
+        <h3 class="text-yellow mb-2">Straight Answers, No Guesswork</h3>
+        <p class="text-sm text-white/75 leading-relaxed">
+          No inflated promises, no hidden fees. We tell you the real cost — government fee plus our service fee — and the real timeline, including the parts that are out of our hands. If we're not the right fit for what you need, we'll say so.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Logos -->
+  <LogoCarousel logos={clientLogos} />
+
+  <!-- Short FAQ -->
+  <FAQBlock items={globalFaq} heading="Quick Answers" />
+  <div class="text-center pb-14 md:pb-20 -mt-6">
+    <a href="/faq" class="inline-flex items-center gap-1.5 font-bold text-sm hover:underline">
+      See the Full FAQ <span aria-hidden="true">→</span>
+    </a>
+  </div>
+
+  <CTABand
+    heading="Ready to Protect Your Work?"
+    body="Start an enquiry and we'll get back to you within 1 business day."
+    buttonLabel={primaryActionLabel}
+    buttonHref="/contact"
+  />
+</BaseLayout>

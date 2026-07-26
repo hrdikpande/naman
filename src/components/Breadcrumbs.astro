@@ -1,0 +1,42 @@
+---
+// Breadcrumbs — visible trail + BreadcrumbList structured data (05-SEO-AND-GEO.md).
+import JsonLd from './JsonLd.astro';
+import { breadcrumbSchema } from '../lib/schema';
+
+interface Crumb {
+  name: string;
+  href: string;
+}
+interface Props {
+  items: Crumb[]; // does not include Home — added automatically
+}
+const { items } = Astro.props;
+const trail: Crumb[] = [{ name: 'Home', href: '/' }, ...items];
+---
+
+<nav aria-label="Breadcrumb" class="mx-auto max-w-[1280px] px-4 md:px-8 pt-6">
+  <ol class="flex flex-wrap items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-[#555]">
+    {
+      trail.map((crumb, i) => (
+        <li class="flex items-center gap-1.5">
+          {i > 0 && (
+            <span aria-hidden="true" class="text-[#999]">
+              →
+            </span>
+          )}
+          {i === trail.length - 1 ? (
+            <span aria-current="page" class="text-ink">
+              {crumb.name}
+            </span>
+          ) : (
+            <a href={crumb.href} class="hover:text-ink">
+              {crumb.name}
+            </a>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<JsonLd data={breadcrumbSchema(trail)} />

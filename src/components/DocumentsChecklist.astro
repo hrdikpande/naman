@@ -1,0 +1,34 @@
+---
+// Documents/inputs required — a checklist the user can prepare from (04-SERVICE-PAGE-TEMPLATE.md §8).
+import SectionTag from './SectionTag.astro';
+
+interface Props {
+  documents: string[];
+  heading?: string;
+}
+const { documents, heading = 'Documents & Inputs Required' } = Astro.props;
+---
+
+{
+  documents.length > 0 && (
+    <section class="py-12 md:py-16 bg-white border-y-[3px] border-ink">
+      <div class="mx-auto max-w-[880px] px-4 md:px-8">
+        <SectionTag>Checklist</SectionTag>
+        <h2 class="mb-8">{heading}</h2>
+        <ul class="grid sm:grid-cols-2 gap-4">
+          {documents.map((doc) => (
+            <li class="flex items-start gap-3">
+              <span
+                class="shrink-0 w-[18px] h-[18px] mt-0.5 flex items-center justify-center bg-green border-2 border-ink rounded-sm text-[11px] font-bold"
+                aria-hidden="true"
+              >
+                ✓
+              </span>
+              <span class="text-[#333] leading-snug">{doc}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,26 @@
+---
+// Card — neo.skill card component. variant: standard (white) | accent (custom bg) | dark.
+interface Props {
+  variant?: 'standard' | 'accent' | 'dark';
+  bgClass?: string; // used when variant="accent", e.g. "bg-pastel-cyan"
+  class?: string;
+  as?: 'div' | 'article' | 'li';
+}
+
+const { variant = 'standard', bgClass = 'bg-pastel-yellow', class: className = '', as = 'div' } = Astro.props;
+
+const variantClass = {
+  standard: 'bg-white text-ink',
+  accent: `${bgClass} text-ink`,
+  dark: 'bg-ink text-white',
+}[variant];
+
+const Tag = as;
+---
+
+<Tag
+  class={`border-[3px] border-ink rounded-brutal shadow-brutal p-7 transition-transform duration-150 ` +
+    `hover:-translate-x-[3px] hover:-translate-y-[3px] hover:shadow-brutal-lg ${variantClass} ${className}`}
+>
+  <slot />
+</Tag>

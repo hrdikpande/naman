@@ -1,0 +1,70 @@
+---
+// FAQ (global) (/faq) — supporting-pages.md. Cross-service questions + links to per-service FAQs.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import SectionTag from '../components/SectionTag.astro';
+import FAQBlock from '../components/FAQBlock.astro';
+import CTABand from '../components/CTABand.astro';
+import { primaryActionLabel } from '../data/business';
+
+const generalFaq = [
+  { question: "What's the difference between trademark, copyright, and patent?", answer: 'A trademark protects a brand identifier — name, logo, or slogan. Copyright protects original creative works — writing, music, art, film, sound recordings, software. A patent protects an invention — a new product or process. A single business can need more than one at once (e.g. a logo can be both a trademark and a copyrighted artistic work).' },
+  { question: 'Is IPR registration mandatory?', answer: 'Copyright protection is automatic on creation and registration is optional (though strongly advised as proof). Trademark and patent rights, by contrast, exist only through registration — there is no automatic protection for an unregistered brand name or invention.' },
+  { question: 'How do I choose the right service?', answer: 'Ask what you\'re protecting: a brand name/logo/slogan → Trademark. Original creative work → Copyright. A new invention or process → Patent. A website/app\'s data-handling policy → Privacy Policy drafting. See our full decision guide on the Services page.' },
+  { question: 'Can I do this myself without a service like yours?', answer: 'Yes — all of these can be self-filed directly with the relevant government authority. We add value through class/category guidance, correctly prepared filings, and support through objections, hearings, or opposition, which is where most self-filed applications run into trouble.' },
+  { question: 'What is the difference between the ® and ™ symbol?', answer: 'The ™ symbol can be used as soon as you start using a trademark or apply for one. The ® symbol can only be used legally once the trademark is officially registered with the government.' },
+  { question: 'What happens if you avoid ™ registration?', answer: 'Without registration, you have no statutory right to stop others from using your brand name. If a competitor registers it first, they can legally force you to rebrand, costing you your built-up goodwill and market presence.' },
+  { question: 'Which documents are required for trademark registration?', answer: 'You need proof of applicant identity (PAN/Aadhaar or Certificate of Incorporation for companies), a copy of the logo/mark, and proof of use (invoices, website screenshots) if you are claiming prior use. A signed Power of Attorney (Form-48) is required if an agent files for you.' },
+  { question: 'What benefits (5) will I get in business after trademark registration?', answer: '1. Exclusive nationwide right to use the mark. 2. Legal protection against infringement. 3. Builds brand trust and intangible asset value. 4. Deters others from using similar marks. 5. Essential for brand registry on platforms like Amazon.' },
+  { question: 'How many months does it take to get a trademark and copyright registration certificate?', answer: 'Trademark registration typically takes 6–12 months if unopposed. Copyright registration usually takes 2–4 months.' },
+  { question: 'What is the total government fee for registration of a trademark?', answer: 'The government fee is ₹4,500 per class for individuals, startups, and MSMEs. For other entities like standard companies and LLPs, the fee is ₹9,000 per class.' },
+];
+
+const processFaq = [
+  { question: 'How does the engagement work, start to finish?', answer: 'Enquiry → assessment → document collection → filing → government process → outcome/certificate. See our full How It Works page for what we do and what we need from you at each stage.' },
+  { question: 'How long does registration take?', answer: 'It varies by service and whether your application is opposed or objected to. Each service page states its typical timeline and flags that government stages are outside anyone\'s control.' },
+  { question: 'What documents will I need?', answer: 'Each service page has a documents checklist. In general: identity proof, proof of ownership/incorporation, and details of what you\'re registering.' },
+  { question: 'Do you guarantee registration?', answer: 'No — and no one honestly can. Outcomes depend on the relevant government authority (IP India, the Copyright Office, or the Patent Office). We guide you through the process and handle objections/oppositions where engaged, but the decision is the authority\'s.' },
+];
+
+const serviceFaqLinks = [
+  { name: 'Trademark FAQ', href: '/services/trademark#faq' },
+  { name: 'Copyright FAQ', href: '/services/copyright#faq' },
+  { name: 'Patent FAQ', href: '/services/patent#faq' },
+];
+---
+
+<BaseLayout
+  title="Frequently Asked Questions — IPR Registration"
+  description="Common questions about trademark, copyright, and patent registration in India — how to choose, timelines, documents, and what we guarantee."
+  path="/faq"
+>
+  <Breadcrumbs items={[{ name: 'FAQ', href: '/faq' }]} />
+
+  <section class="py-12 md:py-16 border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <SectionTag>FAQ</SectionTag>
+      <h1 class="mb-5">Frequently Asked Questions</h1>
+      <p class="text-lg text-[#333] leading-relaxed max-w-2xl">
+        Cross-service questions below. For questions specific to one service, see its dedicated FAQ.
+      </p>
+      <div class="flex flex-wrap gap-4 mt-6">
+        {serviceFaqLinks.map((l) => (
+          <a href={l.href} class="font-bold text-sm hover:underline">
+            {l.name} →
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <FAQBlock items={generalFaq} heading="General IPR Questions" />
+  <FAQBlock items={processFaq} heading="Process & Engagement Questions" />
+
+  <CTABand
+    heading="Still Have Questions?"
+    body="Start an enquiry — we're happy to answer before you commit to anything."
+    buttonLabel={primaryActionLabel}
+    buttonHref="/contact"
+  />
+</BaseLayout>

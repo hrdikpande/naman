@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionTag from '../../components/SectionTag.astro';
+import Card from '../../components/Card.astro';
+import CTABand from '../../components/CTABand.astro';
+import { primaryActionLabel } from '../../data/business';
+
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout
+  title="Blog — Bhartiya IP Solutions"
+  description="Updates, news, and insights about IPR registration in India."
+  path="/blog"
+>
+  <Breadcrumbs items={[{ name: 'Blog', href: '/blog' }]} />
+
+  <section class="py-12 md:py-16 border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <SectionTag>Blog</SectionTag>
+      <h1 class="mb-5">Our Blog</h1>
+      <p class="text-lg text-[#333] leading-relaxed max-w-2xl">
+        Updates, news, and insights about trademark, patent, and copyright registration in India.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-14 md:py-20 bg-white border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <div class="flex flex-col gap-6">
+        {sortedPosts.map((post) => (
+          <Card as="article">
+            <time datetime={post.data.pubDate.toISOString()} class="text-sm font-bold text-[#666] mb-2 block">
+              {post.data.pubDate.toLocaleDateString('en-IN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </time>
+            <h2 class="text-xl mb-3">
+              <a href={`/blog/${post.id}`} class="hover:underline">{post.data.title}</a>
+            </h2>
+            <p class="text-sm text-[#333] leading-relaxed">{post.data.description}</p>
+            <a href={`/blog/${post.id}`} class="inline-block mt-4 font-bold text-sm hover:underline">
+              Read post →
+            </a>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABand
+    heading="Need IPR Assistance?"
+    body="Start an enquiry — we're happy to help."
+    buttonLabel={primaryActionLabel}
+    buttonHref="/contact"
+  />
+</BaseLayout>

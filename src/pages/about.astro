@@ -1,0 +1,69 @@
+---
+// About (/about) — supporting-pages.md. Credentials/experience are a flagged content gap (07-IMPLEMENTATION-PLAN.md §10).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import SectionTag from '../components/SectionTag.astro';
+import CTABand from '../components/CTABand.astro';
+import { business, primaryActionLabel } from '../data/business';
+
+const whyUs = [
+  { title: 'Transparency', desc: 'We show you the full process up front — including the parts that can go wrong (objections, oppositions, hearings) — not just the happy path.' },
+  { title: 'Process Clarity', desc: 'Every service page lays out exactly what we do, what we need from you, and what the government does, at each step.' },
+  { title: 'Support Through Disputes', desc: "We don't disappear if your application hits an objection or opposition — that's exactly when support matters most." },
+];
+---
+
+<BaseLayout
+  title="About Us"
+  description={`About ${business.displayName} — IPR registration and facilitation services in India, focused on transparent process and honest guidance.`}
+  path="/about"
+>
+  <Breadcrumbs items={[{ name: 'About', href: '/about' }]} />
+
+  <section class="py-12 md:py-16 border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <SectionTag>About Us</SectionTag>
+      <h1 class="mb-5">About {business.displayName}</h1>
+      <p class="text-lg text-[#333] leading-relaxed max-w-2xl">
+        {business.displayName} is an IPR filing and facilitation service focused on trademark, copyright, and
+        patent registration in India, plus privacy policy drafting for websites and apps. We help founders,
+        creators, and inventors navigate government registration processes in plain language, from first
+        enquiry through to certificate.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-14 md:py-20 bg-white border-b-[3px] border-ink">
+    <div class="mx-auto max-w-[880px] px-4 md:px-8">
+      <SectionTag>Our Approach</SectionTag>
+      <h2 class="mb-6">How We Work</h2>
+      <div class="border-[3px] border-ink rounded-brutal p-6 bg-white">
+        <p class="text-sm font-semibold text-[#333] leading-relaxed">
+          We don't believe in vague promises. Every engagement starts with a clear scope and an honest read on your timeline — including the parts that depend on the government, not us. You deal directly with the person handling your filing, not a call centre, and we tell you plainly when something is uncertain instead of overselling a guarantee we can't back.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-14 md:py-20">
+    <div class="mx-auto max-w-[1100px] px-4 md:px-8">
+      <SectionTag>Why Choose Us</SectionTag>
+      <h2 class="mb-8">Why Work With Us</h2>
+      <div class="grid sm:grid-cols-3 gap-5">
+        {whyUs.map((item) => (
+          <div class="border-[3px] border-ink rounded-brutal bg-white p-6">
+            <h3 class="mb-2">{item.title}</h3>
+            <p class="text-sm text-[#555] leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABand
+    heading="Let's Talk"
+    body="Have a brand, creative work, or invention to protect? Start an enquiry."
+    buttonLabel={primaryActionLabel}
+    buttonHref="/contact"
+  />
+</BaseLayout>

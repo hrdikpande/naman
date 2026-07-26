@@ -1,0 +1,52 @@
+---
+// Button — neo.skill "Press Effect" component (verbatim spec).
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'dark' | 'white' | 'accent';
+  accentClass?: string; // e.g. "bg-cyan text-ink" — only used when variant="accent"
+  type?: 'button' | 'submit';
+  arrow?: '→' | '↗' | '↓' | '←' | false;
+  class?: string;
+  ariaLabel?: string;
+  id?: string;
+  [key: `data-${string}`]: string | boolean | undefined;
+}
+
+const {
+  href,
+  variant = 'primary',
+  accentClass = 'bg-cyan text-ink',
+  type = 'button',
+  arrow = '→',
+  class: className = '',
+  ariaLabel,
+  ...rest
+} = Astro.props;
+
+const variantClass = {
+  primary: 'bg-yellow text-ink',
+  dark: 'bg-ink text-white',
+  white: 'bg-white text-ink',
+  accent: accentClass,
+}[variant];
+
+const base =
+  'inline-flex items-center justify-center gap-2 border-[3px] border-ink rounded-brutal shadow-brutal ' +
+  'font-bold text-[15px] tracking-wide px-6 py-3 cursor-pointer select-none min-h-[44px] ' +
+  'transition-transform duration-100 ease-out ' +
+  'hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-brutal-sm ' +
+  'active:translate-x-[5px] active:translate-y-[5px] active:shadow-brutal-none';
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  href={href}
+  type={href ? undefined : type}
+  class={`${base} ${variantClass} ${className}`}
+  aria-label={ariaLabel}
+  {...rest}
+>
+  <slot />
+  {arrow && <span aria-hidden="true">{arrow}</span>}
+</Tag>
