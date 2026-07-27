@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
-// When using SSR with the node adapter, static files are output to dist/client
-const dist = path.join(process.cwd(), 'dist/client');
+// When using SSR with the netlify adapter, files are output to dist/
+const dist = path.join(process.cwd(), 'dist');
 const sitemap0 = path.join(dist, 'sitemap-0.xml');
 const sitemap = path.join(dist, 'sitemap.xml');
 const sitemapIndex = path.join(dist, 'sitemap-index.xml');

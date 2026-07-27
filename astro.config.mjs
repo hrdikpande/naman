@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import node from '@astrojs/node';
+import netlify from '@astrojs/netlify';
 
 // SITE URL: derived from the business email domain (bhartiyaipsolutions.com).
 // VERIFY BEFORE LAUNCH — confirm the live production domain with the owner.
@@ -9,9 +9,7 @@ import node from '@astrojs/node';
 // deploy-preview URL env vars.
 export default defineConfig({
   site: process.env.PUBLIC_SITE_URL || 'https://www.bhartiyaipsolutions.com',
-  adapter: node({
-    mode: 'standalone'
-  }),
+  adapter: netlify(),
   integrations: [
     sitemap(),
   ],
