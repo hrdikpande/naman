@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
-const dist = path.join(process.cwd(), 'dist');
+// When using SSR with the node adapter, static files are output to dist/client
+const dist = path.join(process.cwd(), 'dist/client');
 const sitemap0 = path.join(dist, 'sitemap-0.xml');
 const sitemap = path.join(dist, 'sitemap.xml');
 const sitemapIndex = path.join(dist, 'sitemap-index.xml');

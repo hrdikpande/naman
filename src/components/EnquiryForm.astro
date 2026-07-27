@@ -3,11 +3,9 @@
 // Name, Email, Phone, Service of interest, Message. Pre-tags service when opened from a service page.
 // Inline, plain-language validation (03-USER-EXPERIENCE.md). No account creation required.
 //
-// Backend: Netlify Forms — zero-config for a static site hosted on Netlify. Netlify's build bot
-// detects this form from the static HTML (the `data-netlify` attribute + hidden `form-name` input
-// below are required for that detection) and every submission lands in the Netlify dashboard /
-// forwards to email, no API key or third-party service needed. Submitted via fetch() so we keep
-// our own inline validation and the redirect to /enquiry/thank-you on success.
+// Backend: Uses a custom Astro API endpoint (/api/contact) running in hybrid mode.
+// The endpoint securely parses the submission and sends an email via Gmail using Nodemailer.
+// Submitted via fetch() so we keep our own inline validation and the redirect to /enquiry/thank-you on success.
 import Input from './Input.astro';
 import Button from './Button.astro';
 import { services } from '../data/nav';
@@ -27,17 +25,9 @@ const serviceOptions = [
 
 <form
   id={id}
-  name="enquiry"
-  method="POST"
-  data-netlify="true"
-  netlify-honeypot="bot-field"
   class="flex flex-col gap-5 bg-white border-[3px] border-ink rounded-brutal shadow-brutal p-6 md:p-8"
   novalidate
 >
-  <input type="hidden" name="form-name" value="enquiry" />
-  <p class="hidden">
-    <label>Leave this field blank: <input name="bot-field" /></label>
-  </p>
 
   <Input label="Name" name="name" required autocomplete="name" placeholder="Your full name" />
   <Input label="Email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" />
@@ -102,10 +92,9 @@ const serviceOptions = [
     submitBtn?.setAttribute('disabled', 'true');
 
     try {
-      const res = await fetch('/', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(data).toString(),
+        body: data,
       });
       if (!res.ok) throw new Error(`Submission failed (${res.status})`);
 
