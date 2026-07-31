@@ -9,9 +9,16 @@
 # index.html inside its own folder) — Netlify serves both correctly with no [[redirects]]
 # needed. Trailing slashes resolve automatically for directory-style output.
 
+[[redirects]]
+  from = "https://www.bhartiyaipsolutions.com/*"
+  to = "https://bhartiyaipsolutions.com/:splat"
+  status = 301
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]
+    X-Robots-Tag = "index, follow"
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"

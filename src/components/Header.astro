@@ -59,6 +59,13 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     </nav>
 
     <div class="flex items-center gap-3">
+      <a
+        href={`tel:+91${business.phone}`}
+        class="hidden lg:inline-flex items-center gap-1.5 px-3 py-2 rounded-brutal font-bold text-sm uppercase tracking-wide hover:bg-yellow"
+        aria-label="Call Us"
+      >
+        <span aria-hidden="true" class="text-lg leading-none">📞</span> {business.phoneDisplay}
+      </a>
       <a href="/search" class="w-11 h-11 flex items-center justify-center border-[3px] border-ink rounded-brutal bg-white hover:bg-yellow transition-colors" aria-label="Search">
         <span aria-hidden="true" class="text-lg leading-none mt-0.5">🔍</span>
       </a>

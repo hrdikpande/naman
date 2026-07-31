@@ -9,6 +9,7 @@ import { trademark } from '../data/services/trademark';
 import { copyright } from '../data/services/copyright';
 import { patent } from '../data/services/patent';
 import { privacyPolicy } from '../data/services/privacy-policy';
+import { designRegistration } from '../data/services/design-registration';
 import { trademarkSubPages } from '../data/subpages/trademark';
 import { copyrightSubPages } from '../data/subpages/copyright';
 import { patentSubPages } from '../data/subpages/patent';
@@ -26,7 +27,7 @@ const mainPages = [
 ];
 
 const [main, subs, articles, blogPosts] = await Promise.all([
-  Promise.resolve([trademark, copyright, patent, privacyPolicy].map((s) => ({ title: s.name, description: s.metaDescription, url: s.urlPath }))),
+  Promise.resolve([trademark, copyright, patent, privacyPolicy, designRegistration].map((s) => ({ title: s.name, description: s.metaDescription, url: s.urlPath }))),
   Promise.resolve([...trademarkSubPages, ...copyrightSubPages, ...patentSubPages].map((s) => ({ title: s.name, description: s.metaDescription, url: s.urlPath }))),
   getCollection('resources').then((entries) => entries.map((e) => ({ title: e.data.title, description: e.data.description, url: `/resources/${e.id}` }))),
   getCollection('blog').then((entries) => entries.map((e) => ({ title: e.data.title, description: e.data.description, url: `/blog/${e.id}` }))),

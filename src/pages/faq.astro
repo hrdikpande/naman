@@ -5,6 +5,8 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import SectionTag from '../components/SectionTag.astro';
 import FAQBlock from '../components/FAQBlock.astro';
 import CTABand from '../components/CTABand.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { faqSchema } from '../lib/schema';
 import { primaryActionLabel } from '../data/business';
 
 const generalFaq = [
@@ -40,6 +42,7 @@ const serviceFaqLinks = [
   path="/faq"
 >
   <Breadcrumbs items={[{ name: 'FAQ', href: '/faq' }]} />
+  <JsonLd data={faqSchema([...generalFaq, ...processFaq])} />
 
   <section class="py-12 md:py-16 border-b-[3px] border-ink">
     <div class="mx-auto max-w-[880px] px-4 md:px-8">

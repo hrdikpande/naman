@@ -4,6 +4,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import SectionTag from '../components/SectionTag.astro';
 import CTABand from '../components/CTABand.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { personSchema } from '../lib/schema';
 import { business, primaryActionLabel } from '../data/business';
 
 const whyUs = [
@@ -18,17 +20,22 @@ const whyUs = [
   description={`About ${business.displayName} — IPR registration and facilitation services in India, focused on transparent process and honest guidance.`}
   path="/about"
 >
+  <JsonLd data={personSchema()} />
   <Breadcrumbs items={[{ name: 'About', href: '/about' }]} />
 
   <section class="py-12 md:py-16 border-b-[3px] border-ink">
     <div class="mx-auto max-w-[880px] px-4 md:px-8">
       <SectionTag>About Us</SectionTag>
       <h1 class="mb-5">About {business.displayName}</h1>
-      <p class="text-lg text-[#333] leading-relaxed max-w-2xl">
+      <p class="text-lg text-[#333] leading-relaxed max-w-2xl mb-4">
         {business.displayName} is an IPR filing and facilitation service focused on trademark, copyright, and
         patent registration in India, plus privacy policy drafting for websites and apps. We help founders,
         creators, and inventors navigate government registration processes in plain language, from first
         enquiry through to certificate.
+      </p>
+      
+      <p class="text-lg text-[#333] leading-relaxed max-w-2xl">
+        <strong>{business.displayName}</strong>, directed by <strong>Naman Pathak</strong>, is an Indian IPR services firm specializing in Trademark Registration, Copyright Registration, and Patent Registration for startups and businesses across India. With over 5+ years of experience and having assisted 100+ clients in filing trademark applications across 45 classes, we ensure strict compliance with the Trade Marks Act, 1999, the Copyright Act, 1957, and the Patents Act, 1970.
       </p>
     </div>
   </section>

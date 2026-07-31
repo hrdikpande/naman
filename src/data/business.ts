@@ -6,12 +6,15 @@ export const business = {
   // The raw/legal form is kept below for anywhere an exact match is required (e.g. schema "name").
   displayName: 'Bhartiya IP Solutions',
   legalName: 'bhartiyaipsolutions',
-  email: 'bharityaipsolutions@gmail.com',
+  email: 'info@bhartiyaipsolutions.com',
   phone: '6387768856',
   phoneDisplay: '+91 63877 68856',
   areaServed: 'India',
+  director: 'Naman Pathak',
+  linkedin: 'https://www.linkedin.com/in/bhartiya-ip-solutions-a59375425/',
+  openingHours: 'Mo-Sa 10:00-19:00',
   // VERIFY BEFORE LAUNCH — confirm production domain matches astro.config.mjs `site`.
-  siteUrl: 'https://www.bhartiyaipsolutions.com',
+  siteUrl: 'https://bhartiyaipsolutions.com',
 } as const;
 
 // Site-wide legal disclaimer — required in the footer on every page (06-GLOBAL-CONTENT.md).

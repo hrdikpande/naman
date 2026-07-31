@@ -22,7 +22,11 @@ const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
-{noindex && <meta name="robots" content="noindex,follow" />}
+{noindex ? (
+  <meta name="robots" content="noindex,follow" />
+) : (
+  <meta name="robots" content="index, follow" />
+)}
 {googleSiteVerification && <meta name="google-site-verification" content={googleSiteVerification} />}
 
 <meta property="og:type" content="website" />

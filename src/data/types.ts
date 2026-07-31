@@ -25,7 +25,7 @@ export interface RelatedLink {
 }
 
 export interface ServiceData {
-  slug: 'trademark' | 'copyright' | 'patent' | 'privacy-policy';
+  slug: 'trademark' | 'copyright' | 'patent' | 'privacy-policy' | 'design-registration';
   name: string;
   urlPath: string;
   definition: string;

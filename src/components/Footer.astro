@@ -19,6 +19,11 @@ const year = new Date().getFullYear();
       <p class="text-sm text-white/70">
         <a href={`tel:+91${business.phone}`} class="hover:text-white">{business.phoneDisplay}</a>
       </p>
+      <p class="text-sm text-white/70 mt-2">
+        <a href={business.linkedin} target="_blank" rel="noopener noreferrer" class="hover:text-white flex items-center gap-1.5">
+          <span aria-hidden="true" class="text-lg leading-none">💼</span> LinkedIn
+        </a>
+      </p>
     </div>
 
     {

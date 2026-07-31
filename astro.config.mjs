@@ -8,10 +8,20 @@ import netlify from '@astrojs/netlify';
 // should otherwise always point at production, so this is not driven by Netlify's own
 // deploy-preview URL env vars.
 export default defineConfig({
-  site: process.env.PUBLIC_SITE_URL || 'https://www.bhartiyaipsolutions.com',
+  site: process.env.PUBLIC_SITE_URL || 'https://bhartiyaipsolutions.com',
   adapter: netlify(),
   integrations: [
-    sitemap(),
+    sitemap({
+      filter: (page) =>
+        !page.includes('/enquiry/thank-you') &&
+        !page.includes('/legal/privacy-policy') &&
+        !page.includes('/legal/terms') &&
+        !page.includes('/legal/refund-policy') &&
+        !page.includes('/legal/disclaimer'),
+      changefreq: 'weekly',
+      priority: 0.7,
+      lastmod: new Date(),
+    }),
   ],
 });
 

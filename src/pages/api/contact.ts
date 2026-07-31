@@ -17,22 +17,24 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), { status: 400 });
     }
 
-    if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
-      console.error('Email credentials not configured. Found GMAIL_USER:', process.env.GMAIL_USER ? 'Set' : 'Unset', 'Found PASSWORD:', process.env.GMAIL_APP_PASSWORD ? 'Set' : 'Unset');
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS || !process.env.SMTP_HOST) {
+      console.error('Email credentials not configured. Found SMTP_USER:', process.env.SMTP_USER ? 'Set' : 'Unset', 'Found PASSWORD:', process.env.SMTP_PASS ? 'Set' : 'Unset');
       return new Response(JSON.stringify({ error: 'Server configuration error' }), { status: 500 });
     }
 
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT) || 465,
+      secure: Number(process.env.SMTP_PORT) === 465, // true for 465, false for other ports
       auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD,
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
       },
     });
 
     const mailOptions = {
-      from: process.env.GMAIL_USER,
-      to: process.env.GMAIL_USER, // Send the enquiry to the business owner
+      from: process.env.SMTP_USER,
+      to: process.env.SMTP_USER, // Send the enquiry to the business owner
       replyTo: email,
       subject: `New Enquiry from ${name} - ${service}`,
       html: `

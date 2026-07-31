@@ -5,6 +5,8 @@ export const services = [
   { name: 'Copyright', href: '/services/copyright' },
   { name: 'Patent', href: '/services/patent' },
   { name: 'Privacy Policy', href: '/services/privacy-policy' },
+  { name: 'Design Registration', href: '/services/design-registration' },
+  { name: 'Agreement Drafting', href: '/contact' },
 ] as const;
 
 export const headerNav = [
@@ -67,5 +69,15 @@ export const decisionGuide = [
     need: "My website/app's data-handling compliance document",
     service: 'Privacy Policy',
     href: '/services/privacy-policy',
+  },
+  {
+    need: 'The 3D shape, pattern, or visual appearance of a product',
+    service: 'Design Registration',
+    href: '/services/design-registration',
+  },
+  {
+    need: 'Legal documents, contracts, NDAs, or SLAs',
+    service: 'Agreement Drafting',
+    href: '/contact',
   },
 ] as const;

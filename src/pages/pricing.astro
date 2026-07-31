@@ -4,8 +4,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import SectionTag from '../components/SectionTag.astro';
 import CTABand from '../components/CTABand.astro';
+import FAQBlock from '../components/FAQBlock.astro';
+import JsonLd from '../components/JsonLd.astro';
 import { trademarkFees, copyrightFees } from '../data/fees';
 import { primaryActionLabel } from '../data/business';
+import { faqSchema } from '../lib/schema';
+
+const pricingFaq = [
+  { question: 'How much does trademark registration cost in India?', answer: 'For individuals, startups, and MSMEs, the government fee is ₹4,500 per class. For standard companies, it is ₹9,000 per class. Professional fees are charged separately for filing and tracking.' },
+  { question: 'What are the patent registration fees in India in 2025?', answer: 'The e-filing government fee for a provisional or complete patent application is ₹1,600 for natural persons/startups/small entities, and ₹8,000 for others (large entities).' },
+  { question: 'Are government fees refundable if my application is rejected?', answer: 'No. Government fees are strictly non-refundable as they are paid directly to the registry for the processing and examination of your application.' },
+];
 
 const drivers = [
   {
@@ -36,10 +45,11 @@ const drivers = [
 ---
 
 <BaseLayout
-  title="Pricing — What Drives IPR Registration Costs in India"
-  description="Understand what drives trademark, copyright, and patent registration costs in India: government fees plus professional fees, explained transparently."
+  title="Trademark & Patent Registration Pricing India | Bhartiya IP Solutions"
+  description="View transparent pricing for Trademark, Copyright, and Patent registration in India. Affordable IPR services by Bhartiya IP Solutions."
   path="/pricing"
 >
+  <JsonLd data={faqSchema(pricingFaq)} />
   <Breadcrumbs items={[{ name: 'Pricing', href: '/pricing' }]} />
 
   <section class="py-12 md:py-16 border-b-[3px] border-ink">
@@ -87,6 +97,8 @@ const drivers = [
       </p>
     </div>
   </section>
+
+  <FAQBlock items={pricingFaq} heading="Pricing FAQs" />
 
   <CTABand
     heading="Get a Precise Quote"

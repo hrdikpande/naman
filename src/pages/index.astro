@@ -13,14 +13,17 @@ import { trademark } from '../data/services/trademark';
 import { copyright } from '../data/services/copyright';
 import { patent } from '../data/services/patent';
 import { privacyPolicy } from '../data/services/privacy-policy';
+import { designRegistration } from '../data/services/design-registration';
 import { business, disclaimer, primaryActionLabel } from '../data/business';
+import JsonLd from '../components/JsonLd.astro';
+import { localBusinessSchema, howToSchema } from '../lib/schema';
 
 const allServices = [
   { data: { ...trademark, definition: trademark.definition + ' Register today your brand name / logo / slogan / shape / packaging / trade dress / website and smell' }, bg: 'bg-pastel-yellow', icon: '™' },
   { data: copyright, bg: 'bg-pastel-cyan', icon: '©' },
   { data: patent, bg: 'bg-pastel-pink', icon: '℗' },
   { data: { ...privacyPolicy, definition: 'Our expert can draft privacy policy and terms and condition for websites mobile apps online businesses' }, bg: 'bg-pastel-green', icon: '🛡️📄' },
-  { data: { name: 'Design Registration', definition: 'Our expert can help you to protect your product 3d shapes like custom bottles or shaped chair / shapes for perfume or oils, textile prints or embroidery patterns / Ornate furniture fitting, eye-catching packaging', urlPath: '/contact' }, bg: 'bg-pastel-purple', icon: '📐' },
+  { data: { ...designRegistration, definition: 'Our expert can help you to protect your product 3d shapes like custom bottles or shaped chair / shapes for perfume or oils, textile prints or embroidery patterns / Ornate furniture fitting, eye-catching packaging' }, bg: 'bg-pastel-purple', icon: '📐' },
   { data: { name: 'Agreement Drafting', definition: 'Our expert can draft rent agreement / lease agreement / NDA / employment agreement, Service level agreement MSA (Master service agreement), and MOU', urlPath: '/contact' }, bg: 'bg-pastel-orange', icon: '🤝' },
 ];
 
@@ -30,7 +33,6 @@ const clientLogos = [
   { name: 'Global Public School', src: '/3.png', fallbackText: 'Global Public School' },
   { name: 'Shyam Sundar Chandiwala', src: '/4.png', fallbackText: 'Shyam Sundar Chandiwala' },
   { name: 'High Growth', src: '/5.png', fallbackText: 'High Growth (since 1992)' },
-  { name: 'JSA', src: '', fallbackText: 'JSA' },
 ];
 
 const howItWorks = [
@@ -41,17 +43,25 @@ const howItWorks = [
 ];
 
 const globalFaq = [
-  { question: "What's the difference between trademark, copyright, and patent?", answer: 'A trademark protects a brand identifier (name, logo, slogan). Copyright protects original creative works (writing, music, art, software). A patent protects an invention (a new product or process). Many businesses need more than one.' },
-  { question: 'Is IPR registration mandatory?', answer: 'It depends on the right — copyright protection is automatic on creation, while trademark and patent rights are only secured through registration. In all cases, registration makes enforcement dramatically easier.' },
-  { question: 'How do I know which service I need?', answer: 'Use the "Which service do I need?" guide above, or start an enquiry — we\'ll help you figure it out.' },
+  { question: 'What is the total government fee for registration of a trademark?', answer: 'The government fee is ₹4,500 per class for individuals, startups, and MSMEs. For other entities like standard companies and LLPs, the fee is ₹9,000 per class.' },
+  { question: 'How many months does it take to get a trademark and copyright registration certificate?', answer: 'Trademark registration typically takes 6–12 months if unopposed. Copyright registration usually takes 2–4 months.' },
+  { question: 'What benefits (5) will I get in business after trademark registration?', answer: '1. Exclusive nationwide right to use the mark. 2. Legal protection against infringement. 3. Builds brand trust and intangible asset value. 4. Deters others from using similar marks. 5. Essential for brand registry on platforms like Amazon.' },
+  { question: 'Which documents are required for trademark registration?', answer: 'You need proof of applicant identity (PAN/Aadhaar or Certificate of Incorporation for companies), a copy of the logo/mark, and proof of use (invoices, website screenshots) if you are claiming prior use. A signed Power of Attorney (Form-48) is required if an agent files for you.' },
 ];
 ---
 
 <BaseLayout
-  title="IPR Registration Services in India"
-  description="Trademark, Copyright, Patent, and Privacy Policy registration services in India. Transparent process, honest timelines, human support from enquiry to certificate."
+  title="Trademark, Copyright & Patent Registration India | Bhartiya IP Solutions"
+  description="Bhartiya IP Solutions offers affordable online Trademark, Copyright, and Patent registration across India. Get expert IPR protection for your brand, invention, or creative work. Director: Naman Pathak."
   path="/"
 >
+  <JsonLd data={localBusinessSchema()} />
+  <JsonLd data={howToSchema("How to Register a Trademark in India", [
+    { name: "Conduct Trademark Search", text: "Search existing trademarks on the IP India portal to ensure your mark is unique." },
+    { name: "Prepare Application", text: "Fill Form TM-A with your brand details, class of goods/services, and applicant information." },
+    { name: "Filing and Examination", text: "Submit the application and respond to any examination reports or objections from the registry." },
+    { name: "Publication and Registration", text: "If accepted, the mark is published in the Trade Marks Journal. If unopposed for 4 months, a registration certificate is issued." }
+  ])} />
   <!-- Hero -->
   <section class="border-b-[3px] border-ink bg-paper">
     <div class="mx-auto max-w-[880px] px-4 md:px-8 py-16 md:py-24">
@@ -84,6 +94,18 @@ const globalFaq = [
     <div class="mx-auto max-w-[1100px] px-4 md:px-8">
       <SectionTag>Our Services</SectionTag>
       <h2 class="mb-8">Ways We Protect Your Work</h2>
+      
+      <!-- GEO Optimization: Key Takeaways Section -->
+      <div class="mb-10 bg-pastel-yellow border-[3px] border-ink rounded-brutal p-6">
+        <h3 class="text-lg mb-3">In Summary: Key Takeaways</h3>
+        <ul class="flex flex-col gap-2 text-sm text-[#333]">
+          <li><strong>Trademark:</strong> Protects brand names, logos, and slogans (e.g., Apple, Nike "Just Do It").</li>
+          <li><strong>Copyright:</strong> Protects original creative works including software code, books, music, and art.</li>
+          <li><strong>Patent:</strong> Protects new inventions and processes under the Patents Act, 1970.</li>
+          <li><strong>Privacy Policy:</strong> Legally required documents for websites and apps collecting user data in India.</li>
+        </ul>
+      </div>
+
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {allServices.map(({ data, bg, icon }) => (
           <Card variant="accent" bgClass={bg} as="article" class="flex flex-col">
